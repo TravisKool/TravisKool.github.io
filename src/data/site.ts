@@ -39,6 +39,16 @@ export const site = {
   /** Rendered in the hero "Currently" stat. */
   status: 'Sabbatical',
 
+  /**
+   * Portrait for /about. Set to a path like '/portrait.webp' once you have a
+   * photo in public/ and the two-column layout appears automatically. While
+   * this is null the page renders as a single column — deliberately, so the
+   * live site never shows an empty placeholder box.
+   *
+   * Aim for ~1200px on the long edge, converted to .webp. See AGENTS.md.
+   */
+  portrait: null as string | null,
+
   /** Drives the amber "available" dot in the footer. Set false when not looking. */
   openToOpportunities: true,
 
