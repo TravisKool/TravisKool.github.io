@@ -1,7 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
 import SectionRule from '../components/SectionRule.astro';
-import ContactForm from '../components/ContactForm.astro';
 import { site, principles, education } from '../data/site';
 ---
 
@@ -33,32 +32,31 @@ import { site, principles, education } from '../data/site';
 
       <div class="about__bio prose measure">
         <p>
-          I am a backend architect and engineering leader based in {site.location},
-          with more than fifteen years building software and the last few
-          leading the people who build it.
+          I am a backend architect and engineering leader with fifteen years
+          building software — most of it in the .NET ecosystem, and the last
+          eight scaling high-stakes fintech infrastructure.
         </p>
         <p>
-          My work sits at the seam between those two things. I still care a
-          great deal about the shape of the code — whether the boundaries are
-          honest, whether the tests are telling the truth, whether the next
-          engineer to open the file will understand it without a meeting. But
-          most of the leverage now comes from decisions made earlier: which
-          volatilities to decompose around, which things to automate, which
-          arguments are worth having.
+          I was hired at Bitcoin IRA as its first C# engineer and spent four
+          years building the digital asset trading platform under an expert
+          architect, learning the iDesign approach by practising it rather than
+          reading about it. Over the following four years I moved from technical
+          lead to engineering manager and backend architecture lead, ending up
+          as the primary architectural decision-maker across the Retired.com
+          ecosystem — leading the teams behind an instant settlement engine, a
+          real-time compliance platform, and the technical integration of three
+          acquisitions.
         </p>
         <p>
-          I studied computer security and web development at {education.school},
-          and most of my career since has been in the .NET ecosystem — C#,
-          ASP.NET Core, SQL Server — with the architectural habits that come
-          from watching systems get harder to change and deciding to do
-          something about it.
+          Since March 2026 I have been on a deliberate sabbatical in Brazil,
+          flying cross-country and researching agentic AI systems. The question
+          I keep circling is whether autonomous agents can be made to operate
+          like a good engineering team — enforcing precision, decoupling, and
+          long-term quality under aggressive velocity, rather than quietly
+          trading them away for speed.
         </p>
         <p>
-          <em>
-            TODO: replace or extend these paragraphs in your own voice. This is
-            the page recruiters read most carefully, and it should sound like
-            you rather than like a well-behaved draft.
-          </em>
+          I studied computer security and web development at {education.school}.
         </p>
       </div>
     </div>
@@ -92,9 +90,14 @@ import { site, principles, education } from '../data/site';
           afterwards about what actually happened.
         </p>
         <p>
+          Right now that means mornings of pão de queijo and Portuguese
+          practice, and afternoons either in the terminal or somewhere around
+          18,000 feet.
+        </p>
+        <p>
           <em>
-            TODO: everything else that makes you a person rather than a résumé —
-            what you build, read, climb, cook, or argue about.
+            TODO: anything else you want here — what you build, read, climb,
+            cook, or argue about.
           </em>
         </p>
       </div>
@@ -115,13 +118,6 @@ import { site, principles, education } from '../data/site';
           ))
         }
       </ul>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <SectionRule index="04" label="Get in touch" />
-      <ContactForm />
     </div>
   </section>
 </Base>

@@ -3,9 +3,6 @@
    --------------------------------------------------------------------------
    Everything a human needs to edit lives in this file. No personal facts
    should be hardcoded into components or pages.
-
-   Items marked `TODO` still need Travis's input. Everything else was sourced
-   from the GitHub profile, LinkedIn, and the XC scoring sites.
    ========================================================================== */
 
 export const site = {
@@ -24,47 +21,27 @@ export const site = {
 
   /** Appears under the hero and as the default meta description. */
   intro:
-    'Backend architect and engineering leader with over fifteen years building software. I care about decoupled, testable design, about automating the work that should never have been manual, and about leaving architecture behind that the next team can actually reason about.',
+    'Fifteen years building software — the last eight scaling high-stakes fintech infrastructure, and the last four leading the teams that built it. Currently on sabbatical in Brazil, flying cross-country and researching agentic AI systems.',
 
-  location: 'Carson City, Nevada',
+  location: 'Brazil',
 
-  timezone: 'America/Los_Angeles',
+  /** Brasília time. Update when you are back stateside (America/Los_Angeles). */
+  timezone: 'America/Sao_Paulo',
 
-  /**
-   * ⚠️ CONFLICT — needs your call.
-   * LinkedIn currently reads "Independent"; your GitHub profile says
-   * "WAO Holdings". Set this to whichever is true. `null` renders as
-   * "Independent" in the hero stat.
-   */
-  company: 'WAO Holdings',
+  /** Rendered in the hero "Currently" stat. */
+  status: 'Sabbatical',
 
   /** Drives the amber "available" dot in the footer. Set false when not looking. */
   openToOpportunities: true,
 
   /**
-   * Contact form endpoint.
-   *
-   * ⚠️ SETUP REQUIRED — the form is inert until you do this:
-   *   1. Sign up free at https://formspree.io
-   *   2. Create a form; you get an ID like `xbldgwvz`
-   *   3. Paste the full endpoint URL below
-   *
-   * Free tier is 50 submissions/month, no backend, no database. Submissions
-   * are emailed to you — your address is never exposed in the page source.
-   * Set to null to hide the form entirely.
+   * There is deliberately NO email address and NO contact form on this site.
+   * Anyone who finds this page already has the LinkedIn profile, which is the
+   * single inbound channel. Do not reintroduce a mailto link.
    */
-  formEndpoint: 'https://formspree.io/f/TODO_YOUR_FORM_ID',
-
-  /**
-   * Deliberately NOT published on the site — a public mailto is a spam magnet.
-   * The contact form is the only inbound channel.
-   */
-  email: null as string | null,
-
-  /** External profiles. Order is preserved in the footer. */
   links: [
-    { label: 'GitHub', href: 'https://github.com/TravisKool' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/traviskool' },
+    { label: 'GitHub', href: 'https://github.com/TravisKool' },
   ],
 
   /** Primary navigation. */
@@ -77,66 +54,244 @@ export const site = {
 } as const;
 
 /* --------------------------------------------------------------------------
-   CAREER TIMELINE — rendered on /work
-   Newest first. `end: null` renders as "Present" with a live amber marker.
+   CURRENTLY — the sabbatical block on the homepage.
+   The most distinctive thing about you right now, and the thing that ties the
+   engineering and the flying halves of this site together.
    -------------------------------------------------------------------------- */
-export type Role = {
-  company: string;
+export const currently = {
+  headline: 'On sabbatical in Brazil.',
+  body: [
+    'Since March 2026 I have been taking a deliberate professional sabbatical — advancing cross-country paragliding with real-time data, tracking software, variometers and navigation tech, while going deep on agentic AI systems.',
+    'The two halves are more related than they look. After eight years scaling high-stakes fintech infrastructure, I am interested in AI-native systems where autonomous agents operate as a collaborative engineering team — actively enforcing precision, decoupling, and long-term quality even under aggressive velocity. The question I care about is whether rapid scaling can strengthen engineering standards rather than quietly compromise them.',
+    'Mornings are pão de queijo and Portuguese practice. Afternoons are the terminal, or 18,000 feet.',
+  ],
+  facts: [
+    { key: 'Since', value: 'Mar 2026' },
+    { key: 'Based', value: 'Brazil' },
+    { key: 'Focus', value: 'Agentic AI · XC paragliding' },
+  ],
+};
+
+/* --------------------------------------------------------------------------
+   CAREER TIMELINE — rendered on /work
+   Grouped by company so multiple positions at one employer read as a single
+   tenure with a progression, rather than three disconnected jobs.
+   -------------------------------------------------------------------------- */
+export type Position = {
   title: string;
-  location?: string;
   start: string;
   end: string | null;
-  summary: string;
-  /** 2–4 concrete outcomes. Numbers land harder than adjectives. */
-  highlights: string[];
+  /** e.g. "Remote", "Hybrid" */
+  arrangement?: string;
+  highlights: { label?: string; body: string }[];
+};
+
+export type Employer = {
+  company: string;
+  location?: string;
+  /** Total tenure, shown against the company. */
+  start: string;
+  end: string | null;
+  summary?: string;
+  positions: Position[];
   stack: string[];
 };
 
-/**
- * ⚠️ TODO: LinkedIn did not expose your job titles and date ranges to an
- * automated fetch, so the entries below are SCAFFOLDING built from the
- * signals that were visible (locations, certifications, tech stack).
- * Replace the TODO lines with your real history.
- *
- * Locations visible on your profile, which may help you reconstruct these:
- * San Luis Obispo CA · Marina CA · Santa Cruz CA · Kalispell MT · Carson City NV
- */
-export const roles: Role[] = [
+export const employers: Employer[] = [
   {
-    company: 'WAO Holdings',
-    title: 'Backend Architect & Engineering Leader',
-    location: 'Carson City, NV',
-    start: 'TODO',
+    company: 'Independent',
+    location: 'Brazil',
+    start: 'Mar 2026',
     end: null,
     summary:
-      'TODO: one sentence on scope — what you own architecturally and who you lead.',
-    highlights: [
-      'TODO: an architectural decision you made and what it changed.',
-      'TODO: something you automated and the hours or errors it removed.',
-      'TODO: how the team grew or improved under you.',
+      'Professional sabbatical — aviation and agentic AI research.',
+    positions: [
+      {
+        title: 'Professional Sabbatical · Aviation & Agentic AI Research',
+        start: 'Mar 2026',
+        end: null,
+        highlights: [
+          {
+            label: 'Agentic AI',
+            body: 'Experimenting with agentic patterns for AI-native systems in which autonomous agents operate as a collaborative engineering team — enforcing precision, decoupling, and long-term quality under aggressive velocity.',
+          },
+          {
+            label: 'Cross-country flying',
+            body: 'Advancing XC paragliding with real-time data, tracking software, variometers, and navigation technology.',
+          },
+          {
+            label: 'Next',
+            body: 'Considering building my own product to put these ideas into practice.',
+          },
+        ],
+      },
     ],
-    stack: ['C#', '.NET', 'ASP.NET Core', 'SQL Server'],
+    stack: ['Agentic AI', 'Claude Code', 'C#', '.NET'],
   },
   {
-    company: 'TODO: Previous Company',
-    title: 'Senior Software Engineer',
-    start: 'TODO',
-    end: 'TODO',
-    summary: 'TODO: scope and what you were accountable for.',
-    highlights: [
-      'TODO: a system you designed or rescued.',
-      'TODO: a measurable improvement.',
+    company: 'Retired.com',
+    location: 'United States · Remote',
+    start: 'May 2018',
+    end: 'Mar 2026',
+    summary:
+      'Seven years and eleven months across three roles, from founding C# engineer to the platform’s primary architectural decision-maker.',
+    positions: [
+      {
+        title: 'Software Engineering Manager · Backend Architecture Lead',
+        start: 'Sep 2023',
+        end: 'Mar 2026',
+        arrangement: 'Remote',
+        highlights: [
+          {
+            label: 'Engineering leadership',
+            body: 'Primary architectural decision-maker across the Retired.com ecosystem, bridging high-level strategy with technical execution.',
+          },
+          {
+            label: 'M&A integration',
+            body: 'Led the backend engineering teams through the technical acquisition and integration of Choice (Kingdom Trust), Rocket Dollar, and Shrimpy — overseeing platform migrations and cross-team alignment.',
+          },
+          {
+            label: 'High-stakes fintech delivery',
+            body: 'Led the teams that engineered the Instant Settlement Engine — a double-entry ledger — and the custom compliance platform for real-time account locking and fraud prevention.',
+          },
+          {
+            label: 'AI-first transformation',
+            body: 'Spearheaded the move to AI-augmented development, integrating the company’s first AI-powered PR reviewer and automated acceptance tests to hold quality during high-velocity cycles.',
+          },
+          {
+            label: 'Operations',
+            body: 'Owned end-to-end people operations, production release cycles, and critical production support for the unified ecosystem.',
+          },
+        ],
+      },
+      {
+        title: 'Technical Lead of Engineering',
+        start: 'Apr 2022',
+        end: 'Aug 2023',
+        arrangement: 'Remote',
+        highlights: [
+          {
+            label: 'Leadership transition',
+            body: 'Guided decision-making and architectural solution design for a team of senior engineers while remaining hands-on with code the majority of the time.',
+          },
+          {
+            label: 'Quality gatekeeper',
+            body: 'Primary code merger and production releaser, keeping distributed services stable and aligned with organizational standards during rapid scaling.',
+          },
+        ],
+      },
+      {
+        title: 'Senior Software Engineer',
+        start: 'May 2018',
+        end: 'Apr 2022',
+        arrangement: 'Hybrid',
+        highlights: [
+          {
+            label: 'Founding C# engineer, Bitcoin IRA',
+            body: 'Hired as the first C# engineer and a core contributor building the digital asset trading platform and its core APIs.',
+          },
+          {
+            label: 'Architectural foundations',
+            body: 'Practiced and implemented the iDesign approach working closely under an expert architect, establishing a maintainable backend foundation for the growing platform.',
+          },
+          {
+            label: 'APIs and pipelines',
+            body: 'Designed the primary API integrations and established the initial production release pipelines for reliable, automated deployments.',
+          },
+        ],
+      },
     ],
-    stack: ['C#', '.NET', 'Angular'],
+    stack: ['C#', '.NET', 'iDesign', 'Distributed services', 'Fintech', 'Crypto'],
   },
   {
-    company: 'TODO: Earlier Company',
-    title: 'Software Engineer',
-    start: '2011',
-    end: 'TODO',
-    summary: 'TODO: where you learned the craft.',
-    highlights: ['TODO: an early win worth keeping.'],
-    stack: ['C#', 'SQL Server'],
+    company: 'MINDBODY, Inc.',
+    location: 'San Luis Obispo, CA',
+    start: 'Apr 2014',
+    end: 'Apr 2018',
+    positions: [
+      {
+        title: 'Staff Software Engineer',
+        start: 'Apr 2014',
+        end: 'Apr 2018',
+        highlights: [
+          {
+            body: 'Full-stack engineer in fast-paced scrum teams serving the wellness industry, working across complex multi-tiered systems.',
+          },
+          {
+            label: 'Focus areas',
+            body: 'Third-party integrations, payment processing, and web applications across the full SDLC.',
+          },
+          {
+            label: 'Practice',
+            body: 'Unit and integration testing, design patterns, dependency injection, and micro-services.',
+          },
+        ],
+      },
+    ],
+    stack: ['C#', '.NET', 'SQL Server', 'Micro-services', 'TFS', 'Git'],
+  },
+  {
+    company: 'Eldridge Products, Inc.',
+    location: 'Marina, CA',
+    start: 'Sep 2011',
+    end: 'Oct 2014',
+    positions: [
+      {
+        title: 'Software Engineer Consultant',
+        start: 'Sep 2011',
+        end: 'Oct 2014',
+        highlights: [
+          {
+            label: 'Business platform',
+            body: 'Built a web application from the ground up covering point of sale, finance, accounting, receiving, inventory management, and quote generation.',
+          },
+          {
+            label: 'Instrumentation',
+            body: 'Engineered a multi-threaded temperature compensation Windows application that calibrates flow meters algorithmically.',
+          },
+        ],
+      },
+    ],
+    stack: ['C#', 'ASP.NET', 'IdentityServer', 'SQLite', 'jQuery'],
+  },
+  {
+    company: 'Infinite Vision, LLC',
+    location: 'Santa Cruz, CA',
+    start: 'Jan 2011',
+    end: 'Apr 2014',
+    positions: [
+      {
+        title: 'Software Engineer Consultant',
+        start: 'Jan 2011',
+        end: 'Apr 2014',
+        highlights: [
+          {
+            label: 'Medical device industry',
+            body: 'Lead software engineer for a road-safety Windows Embedded service now running in over 1,000 EMS vehicles — real-time data streaming, firmware and configuration updates, calibration settings, and high-priority cloud messaging.',
+          },
+        ],
+      },
+    ],
+    stack: ['C#', '.NET', 'SQLite', 'Windows Embedded'],
+  },
+  {
+    company: 'Torrent Technologies, Inc.',
+    location: 'Kalispell, MT',
+    start: 'May 2008',
+    end: 'Aug 2008',
+    positions: [
+      {
+        title: 'Software Developer Intern',
+        start: 'May 2008',
+        end: 'Aug 2008',
+        highlights: [
+          {
+            body: 'First exposure to C#.NET and web development, generating reports and linking them into an existing ASP.NET flood insurance application in an agile environment.',
+          },
+        ],
+      },
+    ],
+    stack: ['C#', 'ASP.NET', 'HTML', 'CSS'],
   },
 ];
 
@@ -158,6 +313,16 @@ export const certifications = [
     year: '2017',
   },
   { name: 'SQL Server Performance Tuning', issuer: 'Brent Ozar', year: '' },
+];
+
+/* --------------------------------------------------------------------------
+   HERO STATS — rendered on /
+   -------------------------------------------------------------------------- */
+export const heroStats = [
+  { label: 'Engineering', value: '15 yrs' },
+  { label: 'Leading teams', value: '4 yrs' },
+  { label: 'Fintech', value: '8 yrs' },
+  { label: 'Currently', value: site.status },
 ];
 
 /* --------------------------------------------------------------------------
@@ -207,9 +372,9 @@ export const competitions = [
 
 /**
  * Headline pilot stats. Sourced from paraglidingstats.com, August 2026.
- * ⚠️ TODO: add total airtime, total XC distance, and your best flight —
- * those were not exposed to an automated fetch. They are the numbers a
- * reader will care about most.
+ * TODO: add total airtime, total XC distance, and your best flight — those
+ * were not exposed to an automated fetch, and they are the numbers a reader
+ * will care about most.
  */
 export const pilotStats = [
   { label: 'World ranking', value: '#1015' },

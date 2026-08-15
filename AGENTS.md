@@ -106,12 +106,22 @@ linked from `flyingProfiles` in `site.ts`. Competition results and pilot stats
 in that file are sourced from those sites and dated; refresh them rather than
 estimating.
 
-## Contact
+## Contact — there deliberately isn't any
 
-There is **no email address anywhere on the site** — that is deliberate, to
-avoid scraping. The only inbound channel is the Formspree-backed
-`ContactForm` component, configured via `formEndpoint` in `site.ts`. Do not
-reintroduce a `mailto:` link.
+There is **no email address and no contact form anywhere on this site**, and
+that is a decision, not an omission. Anyone who reaches this page already has
+the LinkedIn profile, which is the single inbound channel.
+
+Do not add a `mailto:` link, a contact form, or an email address to
+`site.ts` — not to "improve conversion", not as a fallback. If a contact route
+is ever wanted, ask first.
+
+## Current status
+
+Travis is on a professional sabbatical in Brazil as of March 2026 — agentic AI
+research and cross-country paragliding. This is reflected in `site.status`,
+`currently`, and the first entry in `employers`. If the sabbatical ends, those
+four places need updating together, along with `heroStats`.
 
 ## Images
 

@@ -2,8 +2,13 @@
 import Base from '../layouts/Base.astro';
 import SectionRule from '../components/SectionRule.astro';
 import EntryRow from '../components/EntryRow.astro';
-import ContactForm from '../components/ContactForm.astro';
-import { site, principles, pilotStats } from '../data/site';
+import {
+  site,
+  principles,
+  pilotStats,
+  heroStats,
+  currently,
+} from '../data/site';
 import { getWriting, getFlying, featuredFirst } from '../lib/collections';
 
 const writing = featuredFirst(await getWriting()).slice(0, 4);
@@ -13,8 +18,8 @@ const flying = (await getFlying()).slice(0, 3);
 <Base>
   <!-- ==================================================================
        HERO
-       Grid backdrop, mono role label, oversized serif statement. The three
-       stats underneath do the work a paragraph of throat-clearing would.
+       Grid backdrop, mono role label, oversized serif statement. The stats
+       underneath do the work a paragraph of throat-clearing would.
        ================================================================== -->
   <section class="hero grid-backdrop">
     <div class="container">
@@ -25,19 +30,45 @@ const flying = (await getFlying()).slice(0, 3);
       <p class="hero__intro measure-wide">{site.intro}</p>
 
       <dl class="stats">
-        <div class="stats__item">
-          <dt class="label">Engineering</dt>
-          <dd class="stats__value">15 yrs</dd>
-        </div>
-        <div class="stats__item">
-          <dt class="label">Leading</dt>
-          <dd class="stats__value">3 yrs</dd>
-        </div>
-        <div class="stats__item">
-          <dt class="label">Currently</dt>
-          <dd class="stats__value">{site.company ?? 'Independent'}</dd>
-        </div>
+        {
+          heroStats.map((stat) => (
+            <div class="stats__item">
+              <dt class="label">{stat.label}</dt>
+              <dd class="stats__value">{stat.value}</dd>
+            </div>
+          ))
+        }
       </dl>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       CURRENTLY
+       The sabbatical. The most distinctive thing about Travis right now, and
+       the section that ties the engineering and flying halves together — so
+       it leads, ahead of the principles.
+       ================================================================== -->
+  <section class="section">
+    <div class="container">
+      <SectionRule index="01" label="Currently" />
+
+      <div class="now" data-reveal>
+        <div class="now__body">
+          <h3 class="now__headline">{currently.headline}</h3>
+          {currently.body.map((paragraph) => <p class="now__para">{paragraph}</p>)}
+        </div>
+
+        <dl class="now__facts">
+          {
+            currently.facts.map((fact) => (
+              <div class="now__fact">
+                <dt class="label">{fact.key}</dt>
+                <dd class="now__value">{fact.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
     </div>
   </section>
 
@@ -48,7 +79,7 @@ const flying = (await getFlying()).slice(0, 3);
        ================================================================== -->
   <section class="section">
     <div class="container">
-      <SectionRule index="01" label="How I work" href="/about/" linkLabel="More about me" />
+      <SectionRule index="02" label="How I work" href="/about/" linkLabel="More about me" />
       <ul class="principles">
         {
           principles.map((principle, i) => (
@@ -69,7 +100,7 @@ const flying = (await getFlying()).slice(0, 3);
     writing.length > 0 && (
       <section class="section">
         <div class="container">
-          <SectionRule index="02" label="Writing" href="/writing/" />
+          <SectionRule index="03" label="Writing" href="/writing/" />
           <div class="index">
             {writing.map((entry, i) => (
               <EntryRow
@@ -95,13 +126,13 @@ const flying = (await getFlying()).slice(0, 3);
        ================================================================== -->
   <section class="section">
     <div class="container">
-      <SectionRule index="03" label="Flying" href="/flying/" linkLabel="The flight log" />
+      <SectionRule index="04" label="Flying" href="/flying/" linkLabel="The flight log" />
 
       <div class="flying" data-reveal>
         <p class="flying__lead measure-wide">
-          Away from the keyboard I fly cross-country and competition
-          paragliding. It rewards the same habits software does — preparation,
-          honest debriefs, and respect for the parts you do not control.
+          I fly cross-country and competition paragliding. It rewards the same
+          habits software does — preparation, honest debriefs, and respect for
+          the parts you do not control.
         </p>
 
         <dl class="stats">
@@ -141,17 +172,29 @@ const flying = (await getFlying()).slice(0, 3);
   </section>
 
   <!-- ==================================================================
-       CONTACT
+       ELSEWHERE
+       No email and no contact form by design — anyone who reaches this page
+       already has the LinkedIn profile.
        ================================================================== -->
   <section class="section">
     <div class="container">
-      <SectionRule index="04" label="Get in touch" />
+      <SectionRule index="05" label="Elsewhere" />
       <div class="contact" data-reveal>
         <p class="contact__lead measure-wide">
           I am always up for a conversation about architecture, engineering
-          leadership, or anything with wings.
+          leadership, agentic systems, or anything with wings.
         </p>
-        <ContactForm />
+        <ul class="contact__links">
+          {
+            site.links.map((link) => (
+              <li>
+                <a href={link.href} rel="me noopener" target="_blank">
+                  {link.label} <span aria-hidden="true">→</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
       </div>
     </div>
   </section>
@@ -205,6 +248,52 @@ const flying = (await getFlying()).slice(0, 3);
     margin: 0;
   }
 
+  /* ---- Currently ------------------------------------------------------
+     Two columns: the narrative, and a sticky mono readout beside it. */
+  .now {
+    display: grid;
+    grid-template-columns: 1fr 14rem;
+    gap: var(--space-16);
+    align-items: start;
+  }
+
+  .now__headline {
+    font-size: var(--text-2xl);
+    margin-block-end: var(--space-6);
+  }
+
+  .now__para {
+    max-inline-size: var(--measure);
+    color: var(--ink-muted);
+    font-size: var(--text-base);
+    line-height: var(--leading-prose);
+  }
+
+  .now__para + .now__para {
+    margin-block-start: var(--space-4);
+  }
+
+  .now__facts {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding-inline-start: var(--space-6);
+    border-inline-start: var(--hairline) solid var(--rule);
+  }
+
+  .now__fact {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .now__value {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--ink);
+  }
+
   /* ---- Principles ---------------------------------------------------- */
   .principles {
     display: grid;
@@ -241,7 +330,7 @@ const flying = (await getFlying()).slice(0, 3);
     margin-block-start: var(--space-12);
   }
 
-  /* ---- Contact ------------------------------------------------------- */
+  /* ---- Elsewhere ----------------------------------------------------- */
   .contact__lead {
     font-family: var(--font-display);
     font-size: var(--text-xl);
@@ -249,15 +338,22 @@ const flying = (await getFlying()).slice(0, 3);
     letter-spacing: var(--tracking-tight);
   }
 
-  .contact__cta {
+  .contact__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-8);
+    margin-block-start: var(--space-8);
+    list-style: none;
+    padding: 0;
+  }
+
+  .contact__links a {
     display: inline-flex;
     align-items: center;
     gap: var(--space-3);
-    margin-block-start: var(--space-8);
     padding-block-end: var(--space-2);
     font-family: var(--font-mono);
     font-size: var(--text-sm);
-    letter-spacing: 0.04em;
     color: var(--accent);
     text-decoration: none;
     border-block-end: var(--hairline) solid
@@ -265,7 +361,24 @@ const flying = (await getFlying()).slice(0, 3);
     transition: border-color var(--duration) var(--ease);
   }
 
-  .contact__cta:hover {
+  .contact__links a:hover {
     border-color: var(--accent);
+  }
+
+  @media (max-width: 52rem) {
+    .now {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+
+    .now__facts {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: var(--space-6) var(--space-8);
+      padding-inline-start: 0;
+      padding-block-start: var(--space-6);
+      border-inline-start: 0;
+      border-block-start: var(--hairline) solid var(--rule);
+    }
   }
 </style>

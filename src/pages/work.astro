@@ -1,20 +1,21 @@
 ---
 import Base from '../layouts/Base.astro';
 import SectionRule from '../components/SectionRule.astro';
-import { roles, education, certifications } from '../data/site';
+import { employers, education, certifications } from '../data/site';
 ---
 
 <Base
   title="Work"
-  description="Fifteen years of engineering, and the last three leading teams. Roles, scope, and what changed."
+  description="Fifteen years of engineering — eight scaling high-stakes fintech infrastructure, four leading the teams that built it."
 >
   <section class="page-head grid-backdrop">
     <div class="container">
       <p class="label label--accent">Work</p>
       <h1 class="page-head__title">Where I have been, and what changed while I was there.</h1>
       <p class="page-head__sub measure-wide">
-        The short version: fifteen years writing software, the last three
-        responsible for the architecture and the people building against it.
+        Fifteen years writing software. Eight of them scaling high-stakes
+        fintech infrastructure, and the last four responsible for the
+        architecture and the people building against it.
       </p>
     </div>
   </section>
@@ -25,31 +26,51 @@ import { roles, education, certifications } from '../data/site';
 
       <ol class="timeline">
         {
-          roles.map((role, i) => (
-            <li class="role" data-reveal data-reveal-delay={i * 60}>
-              <div class="role__period">
-                <span class="role__dates">
-                  {role.start} — {role.end ?? 'Present'}
-                </span>
-                {!role.end && <span class="role__now" aria-label="Current role" />}
+          employers.map((employer, i) => (
+            <li class="employer" data-reveal data-reveal-delay={i * 50}>
+              <div class="employer__aside">
+                <div class="employer__period">
+                  <span class="employer__dates">
+                    {employer.start} — {employer.end ?? 'Present'}
+                  </span>
+                  {!employer.end && <span class="employer__now" aria-label="Current" />}
+                </div>
+                {employer.location && (
+                  <p class="employer__location">{employer.location}</p>
+                )}
               </div>
 
-              <div class="role__body">
-                <h3 class="role__title">{role.title}</h3>
-                <p class="role__company">
-                  {role.company}
-                  {role.location && <span class="role__location"> · {role.location}</span>}
-                </p>
-                <p class="role__summary">{role.summary}</p>
+              <div class="employer__body">
+                <h3 class="employer__name">{employer.company}</h3>
+                {employer.summary && <p class="employer__summary">{employer.summary}</p>}
 
-                <ul class="role__highlights">
-                  {role.highlights.map((highlight) => (
-                    <li>{highlight}</li>
+                <ol class="positions">
+                  {employer.positions.map((position) => (
+                    <li class="position">
+                      <div class="position__head">
+                        <h4 class="position__title">{position.title}</h4>
+                        <p class="position__meta">
+                          {position.start} — {position.end ?? 'Present'}
+                          {position.arrangement && ` · ${position.arrangement}`}
+                        </p>
+                      </div>
+
+                      <ul class="position__highlights">
+                        {position.highlights.map((highlight) => (
+                          <li>
+                            {highlight.label && (
+                              <span class="position__label">{highlight.label}</span>
+                            )}
+                            {highlight.body}
+                          </li>
+                        ))}
+                      </ul>
+                    </li>
                   ))}
-                </ul>
+                </ol>
 
-                <ul class="role__stack" aria-label="Technologies">
-                  {role.stack.map((item) => (
+                <ul class="employer__stack" aria-label="Technologies">
+                  {employer.stack.map((item) => (
                     <li>{item}</li>
                   ))}
                 </ul>
@@ -110,31 +131,38 @@ import { roles, education, certifications } from '../data/site';
     color: var(--ink-muted);
   }
 
+  /* ---- Timeline ------------------------------------------------------- */
   .timeline {
     list-style: none;
     padding: 0;
   }
 
-  .role {
+  .employer {
     display: grid;
     grid-template-columns: 12rem 1fr;
     gap: var(--space-6) var(--space-8);
-    padding-block: var(--space-12);
+    padding-block: var(--space-16);
     border-block-start: var(--hairline) solid var(--rule);
   }
 
-  .role:first-child {
+  .employer:first-child {
     border-block-start: 0;
     padding-block-start: 0;
   }
 
-  .role__period {
+  .employer__aside {
+    position: sticky;
+    top: 6rem;
+    align-self: start;
+  }
+
+  .employer__period {
     display: flex;
     align-items: center;
     gap: var(--space-3);
   }
 
-  .role__dates {
+  .employer__dates {
     font-family: var(--font-mono);
     font-size: var(--text-xs);
     text-transform: uppercase;
@@ -144,62 +172,112 @@ import { roles, education, certifications } from '../data/site';
     white-space: nowrap;
   }
 
-  /* Amber marker on the current role — the same signal colour as the footer
-     availability dot, so the meaning is consistent across the site. */
-  .role__now {
+  /* Amber marker on the current position — the same signal colour as the
+     footer availability dot, so the meaning stays consistent sitewide. */
+  .employer__now {
     inline-size: 6px;
     block-size: 6px;
     border-radius: 50%;
     background: var(--signal);
   }
 
-  .role__title {
-    font-size: var(--text-xl);
-    margin-block-end: var(--space-2);
-  }
-
-  .role__company {
+  .employer__location {
+    margin-block-start: var(--space-2);
     font-family: var(--font-mono);
-    font-size: var(--text-xs);
+    font-size: var(--text-2xs);
     text-transform: uppercase;
     letter-spacing: var(--tracking-label);
-    color: var(--accent);
-    margin-block-end: var(--space-6);
+    color: var(--ink-faint);
   }
 
-  .role__summary {
+  .employer__name {
+    font-size: var(--text-2xl);
+    margin-block-end: var(--space-4);
+  }
+
+  .employer__summary {
     max-inline-size: var(--measure);
     color: var(--ink-muted);
     line-height: var(--leading-normal);
+    margin-block-end: var(--space-8);
   }
 
-  .role__highlights {
+  /* ---- Positions within an employer ------------------------------------
+     A left rule ties multiple roles together as one tenure with a
+     progression, rather than three unrelated jobs. */
+  .positions {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .position {
+    position: relative;
+    padding-inline-start: var(--space-6);
+    border-inline-start: var(--hairline) solid var(--rule);
+  }
+
+  .position + .position {
+    margin-block-start: var(--space-12);
+  }
+
+  /* A small square on the rule marks each role change. */
+  .position::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: -3px;
+    inset-block-start: 0.55em;
+    inline-size: 5px;
+    block-size: 5px;
+    background: var(--accent);
+  }
+
+  .position__head {
+    margin-block-end: var(--space-4);
+  }
+
+  .position__title {
+    font-size: var(--text-lg);
+    line-height: var(--leading-snug);
+    margin-block-end: var(--space-2);
+  }
+
+  .position__meta {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .position__highlights {
     max-inline-size: var(--measure);
-    margin-block-start: var(--space-6);
     padding-inline-start: 0;
     list-style: none;
   }
 
-  .role__highlights li {
-    position: relative;
-    padding-inline-start: var(--space-6);
+  .position__highlights li {
+    color: var(--ink-muted);
     line-height: var(--leading-normal);
   }
 
-  .role__highlights li + li {
-    margin-block-start: var(--space-3);
+  .position__highlights li + li {
+    margin-block-start: var(--space-4);
   }
 
-  /* An em dash rather than a bullet — quieter, and consistent with the
-     editorial tone of the rest of the site. */
-  .role__highlights li::before {
-    content: '—';
-    position: absolute;
-    inset-inline-start: 0;
-    color: var(--ink-faint);
+  /* Inline mono lead-in, so each highlight is scannable without bullets. */
+  .position__label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--ink);
+    margin-block-end: var(--space-1);
   }
 
-  .role__stack {
+  .employer__stack {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2);
@@ -208,7 +286,7 @@ import { roles, education, certifications } from '../data/site';
     list-style: none;
   }
 
-  .role__stack li {
+  .employer__stack li {
     font-family: var(--font-mono);
     font-size: var(--text-2xs);
     text-transform: uppercase;
@@ -217,10 +295,6 @@ import { roles, education, certifications } from '../data/site';
     border: var(--hairline) solid var(--rule);
     border-radius: var(--radius);
     padding: 0.3em 0.6em;
-  }
-
-  .role__location {
-    color: var(--ink-faint);
   }
 
   /* ---- Education ------------------------------------------------------ */
@@ -278,14 +352,18 @@ import { roles, education, certifications } from '../data/site';
     white-space: nowrap;
   }
 
-  @media (max-width: 46rem) {
-    .role {
+  @media (max-width: 52rem) {
+    .employer {
       grid-template-columns: 1fr;
       gap: var(--space-4);
+      padding-block: var(--space-12);
     }
 
-    .cert,
-    .comp {
+    .employer__aside {
+      position: static;
+    }
+
+    .cert {
       flex-wrap: wrap;
       gap: var(--space-2);
     }
