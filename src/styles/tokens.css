@@ -1,0 +1,117 @@
+/* ==========================================================================
+   DESIGN TOKENS — "Editorial-Technical"
+   --------------------------------------------------------------------------
+   The whole visual system lives here. Change these values and the entire
+   site follows. Do not hardcode colors, sizes, or fonts anywhere else.
+
+   The system pairs two voices on purpose:
+     - a serif display/reading face  -> authority, someone who writes & thinks
+     - a monospace metadata face     -> precision, the engineer is still here
+   Hairline rules and mono labels carry the structure between them.
+   ========================================================================== */
+
+:root {
+  /* ---- Typefaces -------------------------------------------------------
+     Loaded via @fontsource in global.css. Every family has a real fallback
+     so first paint is never blank. */
+  --font-display: 'Newsreader Variable', 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter Variable', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  /* ---- Type scale ------------------------------------------------------
+     Fluid, ~1.25 ratio at small screens opening to ~1.333 at large.
+     Clamp bounds are deliberate: display sizes get dramatic, body does not. */
+  --text-2xs: 0.6875rem;                              /* mono micro-labels  */
+  --text-xs: 0.75rem;                                 /* mono labels        */
+  --text-sm: 0.8125rem;                               /* mono meta          */
+  --text-base: clamp(1rem, 0.96rem + 0.20vw, 1.125rem);
+  --text-lg: clamp(1.125rem, 1.05rem + 0.36vw, 1.375rem);
+  --text-xl: clamp(1.375rem, 1.22rem + 0.75vw, 1.875rem);
+  --text-2xl: clamp(1.75rem, 1.42rem + 1.6vw, 2.75rem);
+  --text-3xl: clamp(2.25rem, 1.62rem + 3.0vw, 4rem);
+  --text-4xl: clamp(2.75rem, 1.60rem + 5.4vw, 6rem);   /* hero only          */
+
+  /* ---- Leading & tracking --------------------------------------------- */
+  --leading-tight: 1.04;
+  --leading-snug: 1.22;
+  --leading-normal: 1.5;
+  --leading-prose: 1.68;
+  --tracking-label: 0.14em;   /* mono labels are always letterspaced        */
+  --tracking-tight: -0.022em; /* large serif needs negative tracking        */
+
+  /* ---- Spacing ---------------------------------------------------------
+     A 4px base. Section rhythm uses the larger end of the scale. */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+  --section-gap: clamp(4rem, 2.5rem + 7vw, 9rem);
+
+  /* ---- Measure & layout ------------------------------------------------ */
+  --measure: 34rem;        /* long-form reading column — ~68 characters     */
+  --measure-wide: 46rem;   /* intro paragraphs, pull quotes                 */
+  --container: 74rem;      /* outer page container                          */
+  --gutter: clamp(1.25rem, 0.7rem + 2.6vw, 3.5rem);
+
+  /* ---- Motion ----------------------------------------------------------
+     One easing curve for everything. Consistency reads as intentional. */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --duration-fast: 140ms;
+  --duration: 260ms;
+  --duration-slow: 620ms;
+
+  /* ---- Borders --------------------------------------------------------- */
+  --hairline: 1px;
+  --radius: 2px;   /* nearly square. Rounded corners would soften the rigor. */
+
+  /* ======================================================================
+     LIGHT THEME — "paper"
+     Warm off-white stock, near-black ink with a trace of blue.
+     ====================================================================== */
+  --paper: #fbfaf7;
+  --paper-raised: #ffffff;
+  --paper-sunken: #f3f1ec;
+  --ink: #16181c;
+  --ink-muted: #565c65;
+  --ink-faint: #8b9199;
+  --rule: #e4e1da;
+  --rule-strong: #cfcbc1;
+  --accent: #0f6a60;        /* deep instrument teal                         */
+  --accent-hover: #0a4f47;
+  --accent-wash: #e8f1ef;
+  --signal: #b26a1f;        /* amber. Used sparingly — "now", "current".    */
+  --selection: #d6e9e5;
+  --shadow: 0 1px 2px rgb(22 24 28 / 0.04), 0 8px 24px -12px rgb(22 24 28 / 0.12);
+
+  color-scheme: light;
+}
+
+/* ======================================================================
+   DARK THEME — "ink"
+   Not an inversion. Deep blue-black ground, warm paper-white type, and a
+   brighter accent so it still reads as a signal against the dark.
+   ====================================================================== */
+:root[data-theme='dark'] {
+  --paper: #0e1013;
+  --paper-raised: #16191e;
+  --paper-sunken: #0a0c0e;
+  --ink: #e9e7e2;
+  --ink-muted: #9aa1aa;
+  --ink-faint: #6b727b;
+  --rule: #262a31;
+  --rule-strong: #363c45;
+  --accent: #5ac9b8;
+  --accent-hover: #7fd9cb;
+  --accent-wash: #122a28;
+  --signal: #d99b4f;
+  --selection: #1d3a36;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px -12px rgb(0 0 0 / 0.6);
+
+  color-scheme: dark;
+}

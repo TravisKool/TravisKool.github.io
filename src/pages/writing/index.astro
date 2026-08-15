@@ -1,0 +1,74 @@
+---
+import Base from '../../layouts/Base.astro';
+import EntryRow from '../../components/EntryRow.astro';
+import { getWriting } from '../../lib/collections';
+
+const entries = await getWriting();
+---
+
+<Base
+  title="Writing"
+  description="Essays, postmortems, and notes on architecture, engineering leadership, and building software that lasts."
+>
+  <section class="page-head grid-backdrop">
+    <div class="container">
+      <p class="label label--accent">Writing</p>
+      <h1 class="page-head__title">
+        Essays, postmortems, and notes from fifteen years of building.
+      </h1>
+      <p class="page-head__sub measure-wide">
+        Mostly architecture and the human side of engineering. Occasionally
+        what went wrong, and what it cost to find out.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      {
+        entries.length > 0 ? (
+          <div class="index">
+            {entries.map((entry, i) => (
+              <EntryRow
+                href={`/writing/${entry.id}/`}
+                index={i + 1}
+                title={entry.data.title}
+                description={entry.data.description}
+                kicker={entry.data.kind}
+                date={entry.data.pubDate}
+                featured={entry.data.featured}
+              />
+            ))}
+          </div>
+        ) : (
+          <p class="empty">Nothing published yet. Check back shortly.</p>
+        )
+      }
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-head {
+    padding-block: var(--space-16) var(--space-12);
+  }
+
+  .page-head__title {
+    max-inline-size: 22ch;
+    font-size: var(--text-3xl);
+    font-weight: 400;
+    margin-block: var(--space-6);
+  }
+
+  .page-head__sub {
+    font-size: var(--text-lg);
+    line-height: var(--leading-prose);
+    color: var(--ink-muted);
+  }
+
+  .empty {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--ink-faint);
+  }
+</style>

@@ -1,17 +1,243 @@
 ---
+import Base from '../layouts/Base.astro';
+import SectionRule from '../components/SectionRule.astro';
+import EntryRow from '../components/EntryRow.astro';
+import { site, principles } from '../data/site';
+import { getWriting, getFlying, featuredFirst } from '../lib/collections';
 
+const writing = featuredFirst(await getWriting()).slice(0, 4);
+const flying = (await getFlying()).slice(0, 3);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Base>
+  <!-- ==================================================================
+       HERO
+       Grid backdrop, mono role label, oversized serif statement. The three
+       stats underneath do the work a paragraph of throat-clearing would.
+       ================================================================== -->
+  <section class="hero grid-backdrop">
+    <div class="container">
+      <p class="hero__eyebrow label label--accent">{site.role}</p>
+
+      <h1 class="hero__statement">{site.tagline}</h1>
+
+      <p class="hero__intro measure-wide">{site.intro}</p>
+
+      <dl class="stats">
+        <div class="stats__item">
+          <dt class="label">Engineering</dt>
+          <dd class="stats__value">15 yrs</dd>
+        </div>
+        <div class="stats__item">
+          <dt class="label">Leading</dt>
+          <dd class="stats__value">3 yrs</dd>
+        </div>
+        <div class="stats__item">
+          <dt class="label">Currently</dt>
+          <dd class="stats__value">{site.company ?? 'Independent'}</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       PRINCIPLES
+       Straight from the GitHub bio. Four short statements of taste — the
+       fastest way for a reader to decide whether they want to work with you.
+       ================================================================== -->
+  <section class="section">
+    <div class="container">
+      <SectionRule index="01" label="How I work" href="/about/" linkLabel="More about me" />
+      <ul class="principles">
+        {
+          principles.map((principle, i) => (
+            <li class="principle" data-reveal data-reveal-delay={i * 70}>
+              <h3 class="principle__title">{principle.title}</h3>
+              <p class="principle__body">{principle.body}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       WRITING
+       ================================================================== -->
+  {
+    writing.length > 0 && (
+      <section class="section">
+        <div class="container">
+          <SectionRule index="02" label="Writing" href="/writing/" />
+          <div class="index">
+            {writing.map((entry, i) => (
+              <EntryRow
+                href={`/writing/${entry.id}/`}
+                index={i + 1}
+                title={entry.data.title}
+                description={entry.data.description}
+                kicker={entry.data.kind}
+                date={entry.data.pubDate}
+                featured={entry.data.featured}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- ==================================================================
+       FLYING
+       ================================================================== -->
+  {
+    flying.length > 0 && (
+      <section class="section">
+        <div class="container">
+          <SectionRule index="03" label="Flying" href="/flying/" />
+          <div class="index">
+            {flying.map((entry, i) => (
+              <EntryRow
+                href={`/flying/${entry.id}/`}
+                index={i + 1}
+                title={entry.data.title}
+                description={entry.data.description}
+                kicker={entry.data.aircraft}
+                date={entry.data.pubDate}
+                facts={[
+                  entry.data.route.length > 1 ? entry.data.route.join(' → ') : '',
+                  entry.data.hours ? `${entry.data.hours.toFixed(1)} hrs` : '',
+                  entry.data.conditions ?? '',
+                ].filter(Boolean)}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- ==================================================================
+       CONTACT
+       ================================================================== -->
+  <section class="section">
+    <div class="container">
+      <SectionRule index="04" label="Get in touch" />
+      <div class="contact" data-reveal>
+        <p class="contact__lead measure-wide">
+          I am always up for a conversation about architecture, engineering
+          leadership, or anything with wings.
+        </p>
+        {
+          site.email && (
+            <a class="contact__cta" href={`mailto:${site.email}`}>
+              {site.email} <span aria-hidden="true">→</span>
+            </a>
+          )
+        }
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ---- Hero ---------------------------------------------------------- */
+  .hero {
+    padding-block: clamp(var(--space-16), 9vw, var(--space-32)) var(--section-gap);
+  }
+
+  .hero__eyebrow {
+    margin-block-end: var(--space-8);
+  }
+
+  .hero__statement {
+    max-inline-size: 18ch;
+    font-size: var(--text-4xl);
+    font-weight: 400;
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+    margin-block-end: var(--space-8);
+  }
+
+  .hero__intro {
+    font-size: var(--text-lg);
+    line-height: var(--leading-prose);
+    color: var(--ink-muted);
+  }
+
+  /* ---- Stats --------------------------------------------------------- */
+  .stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6) var(--space-12);
+    margin-block-start: var(--space-16);
+    padding-block-start: var(--space-6);
+    border-block-start: var(--hairline) solid var(--rule);
+  }
+
+  .stats__item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .stats__value {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    letter-spacing: var(--tracking-tight);
+    margin: 0;
+  }
+
+  /* ---- Principles ---------------------------------------------------- */
+  .principles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+    gap: var(--space-8) var(--space-6);
+    list-style: none;
+    padding: 0;
+  }
+
+  .principle {
+    padding-block-start: var(--space-4);
+    border-block-start: var(--hairline) solid var(--rule);
+  }
+
+  .principle__title {
+    font-size: var(--text-lg);
+    margin-block-end: var(--space-3);
+  }
+
+  .principle__body {
+    color: var(--ink-muted);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+  }
+
+  /* ---- Contact ------------------------------------------------------- */
+  .contact__lead {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .contact__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-block-start: var(--space-8);
+    padding-block-end: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    text-decoration: none;
+    border-block-end: var(--hairline) solid
+      color-mix(in oklab, var(--accent) 40%, transparent);
+    transition: border-color var(--duration) var(--ease);
+  }
+
+  .contact__cta:hover {
+    border-color: var(--accent);
+  }
+</style>

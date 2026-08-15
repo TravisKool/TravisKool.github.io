@@ -1,0 +1,125 @@
+---
+import Base from '../../layouts/Base.astro';
+import EntryRow from '../../components/EntryRow.astro';
+import { getFlying } from '../../lib/collections';
+
+const entries = await getFlying();
+
+// Aggregate readout across every logged entry — the kind of summary an
+// engineer-pilot actually wants to see at the top of the page.
+const totalHours = entries.reduce((sum, e) => sum + (e.data.hours ?? 0), 0);
+const airports = new Set(entries.flatMap((e) => e.data.route));
+const aircraft = new Set(entries.map((e) => e.data.aircraft).filter(Boolean));
+---
+
+<Base
+  title="Flying"
+  description="Flight logs, cross-countries, and the occasional lesson learned at altitude."
+>
+  <section class="page-head grid-backdrop">
+    <div class="container">
+      <p class="label label--accent">Flying</p>
+      <h1 class="page-head__title">Notes from altitude.</h1>
+      <p class="page-head__sub measure-wide">
+        Flying is the other discipline where preparation, checklists, and honest
+        postmortems decide how the day goes. Here is the log.
+      </p>
+
+      {
+        entries.length > 0 && (
+          <dl class="logbook">
+            <div class="logbook__item">
+              <dt class="label">Logged here</dt>
+              <dd class="logbook__value">{totalHours.toFixed(1)} hrs</dd>
+            </div>
+            <div class="logbook__item">
+              <dt class="label">Airports</dt>
+              <dd class="logbook__value">{airports.size}</dd>
+            </div>
+            <div class="logbook__item">
+              <dt class="label">Types</dt>
+              <dd class="logbook__value">{aircraft.size}</dd>
+            </div>
+          </dl>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      {
+        entries.length > 0 ? (
+          <div class="index">
+            {entries.map((entry, i) => (
+              <EntryRow
+                href={`/flying/${entry.id}/`}
+                index={i + 1}
+                title={entry.data.title}
+                description={entry.data.description}
+                kicker={entry.data.aircraft}
+                date={entry.data.pubDate}
+                featured={entry.data.featured}
+                facts={[
+                  entry.data.route.length > 1 ? entry.data.route.join(' → ') : '',
+                  entry.data.hours ? `${entry.data.hours.toFixed(1)} hrs` : '',
+                  entry.data.conditions ?? '',
+                ].filter(Boolean)}
+              />
+            ))}
+          </div>
+        ) : (
+          <p class="empty">No entries logged yet.</p>
+        )
+      }
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-head {
+    padding-block: var(--space-16) var(--space-12);
+  }
+
+  .page-head__title {
+    max-inline-size: 22ch;
+    font-size: var(--text-3xl);
+    font-weight: 400;
+    margin-block: var(--space-6);
+  }
+
+  .page-head__sub {
+    font-size: var(--text-lg);
+    line-height: var(--leading-prose);
+    color: var(--ink-muted);
+  }
+
+  .logbook {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6) var(--space-12);
+    margin-block-start: var(--space-12);
+    padding-block-start: var(--space-6);
+    border-block-start: var(--hairline) solid var(--rule);
+  }
+
+  .logbook__item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .logbook__value {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    letter-spacing: var(--tracking-tight);
+    font-variant-numeric: tabular-nums;
+    margin: 0;
+  }
+
+  .empty {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--ink-faint);
+  }
+</style>

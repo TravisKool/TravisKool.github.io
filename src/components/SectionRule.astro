@@ -1,0 +1,75 @@
+---
+/**
+ * The ruled section header: a mono label followed by a hairline that runs to
+ * the end of the line. Optionally carries an action link on the right.
+ */
+interface Props {
+  label: string;
+  /** Optional index number rendered before the label, e.g. "01". */
+  index?: string;
+  href?: string;
+  linkLabel?: string;
+}
+
+const { label, index, href, linkLabel = 'View all' } = Astro.props;
+---
+
+<div class="rule">
+  {index && <span class="rule__index" aria-hidden="true">{index}</span>}
+  <h2 class="rule__label">{label}</h2>
+  <span class="rule__line" aria-hidden="true"></span>
+  {
+    href && (
+      <a href={href} class="rule__link">
+        {linkLabel} <span aria-hidden="true">→</span>
+      </a>
+    )
+  }
+</div>
+
+<style>
+  .rule {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-block-end: var(--space-8);
+  }
+
+  .rule__index,
+  .rule__label,
+  .rule__link {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    line-height: 1;
+  }
+
+  .rule__index {
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .rule__label {
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .rule__line {
+    flex: 1;
+    block-size: var(--hairline);
+    background: var(--rule);
+  }
+
+  .rule__link {
+    color: var(--ink-faint);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color var(--duration-fast) var(--ease);
+  }
+
+  .rule__link:hover {
+    color: var(--accent);
+  }
+</style>

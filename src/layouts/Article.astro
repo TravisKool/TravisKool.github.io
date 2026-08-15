@@ -1,0 +1,188 @@
+---
+import Base from '../layouts/Base.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  /** Mono kicker above the title — post kind, or aircraft type. */
+  kicker?: string;
+  /** Mono facts rendered in the technical readout under the title. */
+  facts?: { key: string; value: string }[];
+  tags?: string[];
+  backHref: string;
+  backLabel: string;
+}
+
+const {
+  title,
+  description,
+  pubDate,
+  updatedDate,
+  kicker,
+  facts = [],
+  tags = [],
+  backHref,
+  backLabel,
+} = Astro.props;
+
+const fmt = (date: Date) =>
+  date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<Base title={title} description={description} article publishedTime={pubDate}>
+  <article class="article">
+    <header class="article__header">
+      <div class="container">
+        <a href={backHref} class="article__back">
+          <span aria-hidden="true">←</span> {backLabel}
+        </a>
+
+        {kicker && <p class="article__kicker label label--accent">{kicker}</p>}
+
+        <h1 class="article__title">{title}</h1>
+
+        <p class="article__standfirst measure-wide">{description}</p>
+
+        <!-- Technical readout: the same instrument language as the footer,
+             carrying whatever facts this particular entry has. -->
+        <dl class="readout">
+          <div class="readout__cell">
+            <dt class="readout__key">Published</dt>
+            <dd class="readout__val">
+              <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>
+            </dd>
+          </div>
+          {
+            updatedDate && (
+              <div class="readout__cell">
+                <dt class="readout__key">Updated</dt>
+                <dd class="readout__val">
+                  <time datetime={updatedDate.toISOString()}>{fmt(updatedDate)}</time>
+                </dd>
+              </div>
+            )
+          }
+          {
+            facts.map((fact) => (
+              <div class="readout__cell">
+                <dt class="readout__key">{fact.key}</dt>
+                <dd class="readout__val">{fact.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="prose measure article__body">
+        <slot />
+      </div>
+
+      {
+        tags.length > 0 && (
+          <ul class="tags">
+            {tags.map((tag) => (
+              <li class="tags__item">{tag}</li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+  </article>
+</Base>
+
+<style>
+  .article__header {
+    padding-block: var(--space-12) var(--space-16);
+    border-block-end: var(--hairline) solid var(--rule);
+    margin-block-end: var(--space-16);
+  }
+
+  .article__back {
+    display: inline-block;
+    margin-block-end: var(--space-12);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--ink-faint);
+    text-decoration: none;
+  }
+
+  .article__back:hover {
+    color: var(--accent);
+  }
+
+  .article__kicker {
+    margin-block-end: var(--space-4);
+  }
+
+  .article__title {
+    max-inline-size: 20ch;
+    font-size: var(--text-3xl);
+    font-weight: 400;
+    margin-block-end: var(--space-6);
+  }
+
+  .article__standfirst {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    line-height: var(--leading-snug);
+    color: var(--ink-muted);
+  }
+
+  /* Shares the visual language of the footer readout, scoped locally because
+     the markup differs (dl/dt/dd rather than spans). */
+  .readout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-8);
+    margin-block-start: var(--space-12);
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .readout__cell {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .readout__key {
+    color: var(--ink-faint);
+  }
+
+  .readout__val {
+    margin: 0;
+    color: var(--ink-muted);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    max-inline-size: var(--measure);
+    margin-block-start: var(--space-16);
+    padding-block-start: var(--space-6);
+    border-block-start: var(--hairline) solid var(--rule);
+    list-style: none;
+    padding-inline: 0;
+  }
+
+  .tags__item {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--ink-faint);
+    border: var(--hairline) solid var(--rule);
+    border-radius: var(--radius);
+    padding: 0.3em 0.6em;
+  }
+</style>

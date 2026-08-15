@@ -1,0 +1,222 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionRule from '../components/SectionRule.astro';
+import { site, principles } from '../data/site';
+---
+
+<Base
+  title="About"
+  description={site.intro}
+>
+  <section class="page-head grid-backdrop">
+    <div class="container">
+      <p class="label label--accent">About</p>
+      <h1 class="page-head__title">{site.name}</h1>
+      <p class="page-head__sub measure-wide">{site.role}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container about__layout">
+      <div class="about__portrait">
+        <!--
+          TODO: drop a professional photo at /public/portrait.jpg and replace
+          this placeholder. Aim for ~1200px on the long edge, then convert to
+          .webp — see CLAUDE.md for the image workflow.
+        -->
+        <div class="portrait-placeholder" role="img" aria-label="Portrait placeholder">
+          <span class="label">Portrait</span>
+          <span class="portrait-placeholder__hint">/public/portrait.jpg</span>
+        </div>
+      </div>
+
+      <div class="about__bio prose measure">
+        <p>
+          I have spent about fifteen years building software, and the last three
+          or so leading the people who build it — currently as an architect
+          reporting to the CTO at {site.company}.
+        </p>
+        <p>
+          My work sits at the seam between the two. I still care a great deal
+          about the shape of the code: whether the boundaries are honest,
+          whether the tests are telling the truth, whether the next engineer to
+          open the file will understand it without a meeting. But most of the
+          leverage now comes from decisions made earlier — which volatilities to
+          decompose around, which things to automate, which arguments are worth
+          having.
+        </p>
+        <p>
+          <em>
+            TODO: replace these paragraphs with your own voice. This is the page
+            recruiters read most carefully, and it should sound like you rather
+            than like a well-behaved draft.
+          </em>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionRule index="01" label="What I believe" />
+      <ul class="principles">
+        {
+          principles.map((principle, i) => (
+            <li class="principle" data-reveal data-reveal-delay={i * 70}>
+              <h3 class="principle__title">{principle.title}</h3>
+              <p class="principle__body">{principle.body}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionRule index="02" label="Away from the keyboard" />
+      <div class="prose measure">
+        <p>
+          TODO: this is the section that makes you a person rather than a
+          résumé. Flying has its own <a href="/flying/">section</a>; use this
+          space for everything else — what you build, read, climb, cook, or
+          argue about.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionRule index="03" label="Elsewhere" />
+      <ul class="elsewhere">
+        {
+          site.links.map((link) => (
+            <li>
+              <a href={link.href} rel="me noopener" target="_blank">
+                {link.label} <span aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))
+        }
+        {
+          site.email && (
+            <li>
+              <a href={`mailto:${site.email}`}>
+                Email <span aria-hidden="true">→</span>
+              </a>
+            </li>
+          )
+        }
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-head {
+    padding-block: var(--space-16) var(--space-12);
+  }
+
+  .page-head__title {
+    font-size: var(--text-3xl);
+    font-weight: 400;
+    margin-block: var(--space-6) var(--space-4);
+  }
+
+  .page-head__sub {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--ink-muted);
+  }
+
+  .about__layout {
+    display: grid;
+    grid-template-columns: minmax(14rem, 20rem) 1fr;
+    gap: var(--space-16);
+    align-items: start;
+  }
+
+  .about__portrait {
+    position: sticky;
+    top: 6rem;
+  }
+
+  .portrait-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    aspect-ratio: 4 / 5;
+    background: var(--paper-sunken);
+    border: var(--hairline) dashed var(--rule-strong);
+    border-radius: var(--radius);
+    color: var(--ink-faint);
+  }
+
+  .portrait-placeholder__hint {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    color: var(--ink-faint);
+  }
+
+  .principles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+    gap: var(--space-8) var(--space-6);
+    list-style: none;
+    padding: 0;
+  }
+
+  .principle {
+    padding-block-start: var(--space-4);
+    border-block-start: var(--hairline) solid var(--rule);
+  }
+
+  .principle__title {
+    font-size: var(--text-lg);
+    margin-block-end: var(--space-3);
+  }
+
+  .principle__body {
+    color: var(--ink-muted);
+    line-height: var(--leading-normal);
+  }
+
+  .elsewhere {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-8);
+    list-style: none;
+    padding: 0;
+  }
+
+  .elsewhere a {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--ink-muted);
+    text-decoration: none;
+    border-block-end: var(--hairline) solid var(--rule-strong);
+    padding-block-end: var(--space-1);
+  }
+
+  .elsewhere a:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  @media (max-width: 52rem) {
+    .about__layout {
+      grid-template-columns: 1fr;
+      gap: var(--space-12);
+    }
+
+    .about__portrait {
+      position: static;
+      max-inline-size: 18rem;
+    }
+  }
+</style>

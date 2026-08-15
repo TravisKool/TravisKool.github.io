@@ -1,0 +1,222 @@
+---
+/**
+ * A single row in a numbered index. Used by /writing, /flying, and the
+ * homepage. The whole row is one link target — bigger hit area, less fiddly
+ * than linking the title alone.
+ */
+interface Props {
+  href: string;
+  index: number;
+  title: string;
+  description?: string;
+  /** Mono kicker, e.g. "postmortem" or an aircraft type. */
+  kicker?: string;
+  date: Date;
+  /** Extra mono facts shown on the right, e.g. ["KAPA → KASE", "1.8 hrs"]. */
+  facts?: string[];
+  featured?: boolean;
+}
+
+const {
+  href,
+  index,
+  title,
+  description,
+  kicker,
+  date,
+  facts = [],
+  featured = false,
+} = Astro.props;
+
+const iso = date.toISOString();
+const display = date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+---
+
+<a class:list={['row', { 'row--featured': featured }]} href={href} data-reveal>
+  <span class="row__index" aria-hidden="true">{String(index).padStart(2, '0')}</span>
+
+  <span class="row__body">
+    {
+      (kicker || featured) && (
+        <span class="row__kickers">
+          {kicker && <span class="row__kicker">{kicker}</span>}
+          {featured && <span class="row__flag">Featured</span>}
+        </span>
+      )
+    }
+    <span class="row__title">{title}</span>
+    {description && <span class="row__desc">{description}</span>}
+    {
+      facts.length > 0 && (
+        <span class="row__facts">
+          {facts.map((fact) => (
+            <span class="row__fact">{fact}</span>
+          ))}
+        </span>
+      )
+    }
+  </span>
+
+  <time class="row__date" datetime={iso}>{display}</time>
+
+  <span class="row__arrow" aria-hidden="true">→</span>
+</a>
+
+<style>
+  .row {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    align-items: start;
+    gap: var(--space-4) var(--space-6);
+    padding-block: var(--space-6);
+    border-block-end: var(--hairline) solid var(--rule);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color var(--duration) var(--ease);
+  }
+
+  .row:hover {
+    border-color: var(--rule-strong);
+  }
+
+  .row:first-child {
+    border-block-start: var(--hairline) solid var(--rule);
+  }
+
+  .row__index,
+  .row__kicker,
+  .row__flag,
+  .row__date,
+  .row__fact {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .row__index {
+    padding-block-start: 0.45em;
+    color: var(--ink-faint);
+    transition: color var(--duration) var(--ease);
+  }
+
+  .row:hover .row__index {
+    color: var(--accent);
+  }
+
+  .row__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-inline-size: 0;
+  }
+
+  .row__kickers {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .row__kicker {
+    color: var(--accent);
+  }
+
+  .row__flag {
+    color: var(--signal);
+    border: var(--hairline) solid color-mix(in oklab, var(--signal) 45%, transparent);
+    border-radius: var(--radius);
+    padding: 0.15em 0.5em;
+    font-size: var(--text-2xs);
+  }
+
+  .row__title {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-tight);
+    text-wrap: balance;
+    transition: color var(--duration-fast) var(--ease);
+  }
+
+  .row:hover .row__title {
+    color: var(--accent);
+  }
+
+  .row--featured .row__title {
+    font-size: var(--text-2xl);
+  }
+
+  .row__desc {
+    max-inline-size: 52ch;
+    color: var(--ink-muted);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+  }
+
+  .row__facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+    margin-block-start: var(--space-1);
+  }
+
+  .row__fact {
+    color: var(--ink-faint);
+  }
+
+  .row__date {
+    padding-block-start: 0.45em;
+    color: var(--ink-faint);
+    white-space: nowrap;
+  }
+
+  /* The arrow slides on hover. It is the only playful motion in the list, and
+     it reinforces the direction of travel. */
+  .row__arrow {
+    padding-block-start: 0.3em;
+    color: var(--ink-faint);
+    transition: transform var(--duration) var(--ease),
+      color var(--duration) var(--ease);
+  }
+
+  .row:hover .row__arrow {
+    color: var(--accent);
+    transform: translateX(4px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .row__arrow {
+      transition: color var(--duration-fast) var(--ease);
+    }
+    .row:hover .row__arrow {
+      transform: none;
+    }
+  }
+
+  /* Below this width the four-column grid crushes the title. Drop the date and
+     arrow into the body column instead of shrinking everything. */
+  @media (max-width: 42rem) {
+    .row {
+      grid-template-columns: auto 1fr;
+      gap: var(--space-3) var(--space-4);
+    }
+
+    .row__date {
+      grid-column: 2;
+      padding-block-start: 0;
+    }
+
+    .row__arrow {
+      display: none;
+    }
+
+    .row--featured .row__title {
+      font-size: var(--text-xl);
+    }
+  }
+</style>

@@ -1,0 +1,69 @@
+---
+/**
+ * Theme toggle. Cycles light -> dark and persists the choice.
+ * The actual theme is applied by the blocking script in Base.astro; this only
+ * flips it. Until a user makes an explicit choice we follow the OS setting.
+ */
+---
+
+<button
+  type="button"
+  class="theme-toggle"
+  aria-label="Switch between light and dark theme"
+  data-theme-toggle
+>
+  <span class="theme-toggle__glyph" aria-hidden="true">
+    <!-- Sun and moon share a viewBox so the swap lands on the same optical center. -->
+    <svg class="theme-toggle__sun" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round">
+      <circle cx="8" cy="8" r="3.1" />
+      <path d="M8 1v1.6M8 13.4V15M15 8h-1.6M2.6 8H1M12.95 3.05l-1.13 1.13M4.18 11.82l-1.13 1.13M12.95 12.95l-1.13-1.13M4.18 4.18L3.05 3.05" />
+    </svg>
+    <svg class="theme-toggle__moon" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round">
+      <path d="M13.5 9.6A5.9 5.9 0 0 1 6.4 2.5a5.9 5.9 0 1 0 7.1 7.1Z" />
+    </svg>
+  </span>
+</button>
+
+<style>
+  .theme-toggle {
+    display: grid;
+    place-items: center;
+    inline-size: 2rem;
+    block-size: 2rem;
+    padding: 0;
+    background: transparent;
+    border: var(--hairline) solid transparent;
+    border-radius: var(--radius);
+    color: var(--ink-muted);
+    cursor: pointer;
+    transition: color var(--duration-fast) var(--ease),
+      border-color var(--duration-fast) var(--ease);
+  }
+
+  .theme-toggle:hover {
+    color: var(--accent);
+    border-color: var(--rule);
+  }
+
+  .theme-toggle__glyph {
+    display: grid;
+    place-items: center;
+  }
+
+  /* Both icons occupy the same cell; only one is ever visible. */
+  .theme-toggle__glyph > svg {
+    grid-area: 1 / 1;
+  }
+
+  .theme-toggle__moon {
+    display: none;
+  }
+
+  :global(:root[data-theme='dark']) .theme-toggle__sun {
+    display: none;
+  }
+
+  :global(:root[data-theme='dark']) .theme-toggle__moon {
+    display: block;
+  }
+</style>

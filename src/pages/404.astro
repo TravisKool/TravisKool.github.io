@@ -1,0 +1,53 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Not found" description="That page does not exist.">
+  <section class="notfound grid-backdrop">
+    <div class="container">
+      <p class="label label--accent">Error 404</p>
+      <h1 class="notfound__title">Off the sectional.</h1>
+      <p class="notfound__body measure">
+        That page is not on the chart. It may have been moved, renamed, or never
+        existed in the first place.
+      </p>
+      <a class="notfound__cta" href="/">Return to the field <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .notfound {
+    padding-block: var(--space-32) var(--section-gap);
+  }
+
+  .notfound__title {
+    font-size: var(--text-3xl);
+    font-weight: 400;
+    margin-block: var(--space-6);
+  }
+
+  .notfound__body {
+    font-size: var(--text-lg);
+    line-height: var(--leading-prose);
+    color: var(--ink-muted);
+  }
+
+  .notfound__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-block-start: var(--space-12);
+    padding-block-end: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--accent);
+    text-decoration: none;
+    border-block-end: var(--hairline) solid
+      color-mix(in oklab, var(--accent) 40%, transparent);
+  }
+
+  .notfound__cta:hover {
+    border-color: var(--accent);
+  }
+</style>

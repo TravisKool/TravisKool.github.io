@@ -1,0 +1,195 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionRule from '../components/SectionRule.astro';
+import { roles } from '../data/site';
+---
+
+<Base
+  title="Work"
+  description="Fifteen years of engineering, and the last three leading teams. Roles, scope, and what changed."
+>
+  <section class="page-head grid-backdrop">
+    <div class="container">
+      <p class="label label--accent">Work</p>
+      <h1 class="page-head__title">Where I have been, and what changed while I was there.</h1>
+      <p class="page-head__sub measure-wide">
+        The short version: fifteen years writing software, the last three
+        responsible for the architecture and the people building against it.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionRule index="01" label="Experience" />
+
+      <ol class="timeline">
+        {
+          roles.map((role, i) => (
+            <li class="role" data-reveal data-reveal-delay={i * 60}>
+              <div class="role__period">
+                <span class="role__dates">
+                  {role.start} — {role.end ?? 'Present'}
+                </span>
+                {!role.end && <span class="role__now" aria-label="Current role" />}
+              </div>
+
+              <div class="role__body">
+                <h3 class="role__title">{role.title}</h3>
+                <p class="role__company">{role.company}</p>
+                <p class="role__summary">{role.summary}</p>
+
+                <ul class="role__highlights">
+                  {role.highlights.map((highlight) => (
+                    <li>{highlight}</li>
+                  ))}
+                </ul>
+
+                <ul class="role__stack" aria-label="Technologies">
+                  {role.stack.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-head {
+    padding-block: var(--space-16) var(--space-12);
+  }
+
+  .page-head__title {
+    max-inline-size: 22ch;
+    font-size: var(--text-3xl);
+    font-weight: 400;
+    margin-block: var(--space-6);
+  }
+
+  .page-head__sub {
+    font-size: var(--text-lg);
+    line-height: var(--leading-prose);
+    color: var(--ink-muted);
+  }
+
+  .timeline {
+    list-style: none;
+    padding: 0;
+  }
+
+  .role {
+    display: grid;
+    grid-template-columns: 12rem 1fr;
+    gap: var(--space-6) var(--space-8);
+    padding-block: var(--space-12);
+    border-block-start: var(--hairline) solid var(--rule);
+  }
+
+  .role:first-child {
+    border-block-start: 0;
+    padding-block-start: 0;
+  }
+
+  .role__period {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .role__dates {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--ink-faint);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  /* Amber marker on the current role — the same signal colour as the footer
+     availability dot, so the meaning is consistent across the site. */
+  .role__now {
+    inline-size: 6px;
+    block-size: 6px;
+    border-radius: 50%;
+    background: var(--signal);
+  }
+
+  .role__title {
+    font-size: var(--text-xl);
+    margin-block-end: var(--space-2);
+  }
+
+  .role__company {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--accent);
+    margin-block-end: var(--space-6);
+  }
+
+  .role__summary {
+    max-inline-size: var(--measure);
+    color: var(--ink-muted);
+    line-height: var(--leading-normal);
+  }
+
+  .role__highlights {
+    max-inline-size: var(--measure);
+    margin-block-start: var(--space-6);
+    padding-inline-start: 0;
+    list-style: none;
+  }
+
+  .role__highlights li {
+    position: relative;
+    padding-inline-start: var(--space-6);
+    line-height: var(--leading-normal);
+  }
+
+  .role__highlights li + li {
+    margin-block-start: var(--space-3);
+  }
+
+  /* An em dash rather than a bullet — quieter, and consistent with the
+     editorial tone of the rest of the site. */
+  .role__highlights li::before {
+    content: '—';
+    position: absolute;
+    inset-inline-start: 0;
+    color: var(--ink-faint);
+  }
+
+  .role__stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-block-start: var(--space-8);
+    padding: 0;
+    list-style: none;
+  }
+
+  .role__stack li {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--ink-faint);
+    border: var(--hairline) solid var(--rule);
+    border-radius: var(--radius);
+    padding: 0.3em 0.6em;
+  }
+
+  @media (max-width: 46rem) {
+    .role {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+  }
+</style>

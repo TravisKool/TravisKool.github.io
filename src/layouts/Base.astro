@@ -1,0 +1,127 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import SEO from '../components/SEO.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  article?: boolean;
+  publishedTime?: Date;
+}
+
+const { title, description, article, publishedTime } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <SEO {title} {description} {article} {publishedTime} />
+
+    <!--
+      Theme applied before first paint to avoid a flash of the wrong theme.
+      This must stay inline and blocking — moving it to an external file or
+      adding `defer` reintroduces the flash.
+    -->
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme');
+          var theme =
+            stored ||
+            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.dataset.theme = theme;
+        } catch (e) {
+          /* Private mode or storage disabled — fall back to the light default. */
+        }
+      })();
+    </script>
+
+    <ClientRouter />
+  </head>
+
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <Nav />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      /* ------------------------------------------------------------------
+         Theme toggle wiring.
+         Listens on document so it survives view transitions replacing the
+         button, and re-applies the stored theme after each swap because the
+         inline head script only runs on a full page load.
+         ------------------------------------------------------------------ */
+      document.addEventListener('click', (event) => {
+        const target = event.target as HTMLElement | null;
+        if (!target?.closest('[data-theme-toggle]')) return;
+
+        const next =
+          document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+        document.documentElement.dataset.theme = next;
+        try {
+          localStorage.setItem('theme', next);
+        } catch {
+          /* Non-fatal: the theme still applies for this page view. */
+        }
+      });
+
+      document.addEventListener('astro:after-swap', () => {
+        try {
+          const stored = localStorage.getItem('theme');
+          if (stored) document.documentElement.dataset.theme = stored;
+        } catch {
+          /* ignore */
+        }
+      });
+
+      /* ------------------------------------------------------------------
+         Scroll reveal.
+         Content is authored visible. We only hide it (`is-armed`) once we know
+         JS and IntersectionObserver are available and the user has not asked
+         for reduced motion — so content can never get stuck invisible.
+         ------------------------------------------------------------------ */
+      function initReveal() {
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const targets = document.querySelectorAll<HTMLElement>('[data-reveal]');
+
+        if (reduced || !('IntersectionObserver' in window)) {
+          targets.forEach((el) => el.classList.add('is-visible'));
+          return;
+        }
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              const el = entry.target as HTMLElement;
+              // Stagger siblings slightly so groups cascade instead of popping.
+              const delay = Number(el.dataset.revealDelay ?? 0);
+              window.setTimeout(() => el.classList.add('is-visible'), delay);
+              observer.unobserve(el);
+            });
+          },
+          { rootMargin: '0px 0px -12% 0px', threshold: 0.05 }
+        );
+
+        targets.forEach((el) => {
+          el.classList.add('is-armed');
+          observer.observe(el);
+        });
+      }
+
+      initReveal();
+      document.addEventListener('astro:page-load', initReveal);
+    </script>
+  </body>
+</html>
