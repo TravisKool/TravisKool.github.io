@@ -16,8 +16,16 @@ export const site = {
   /** Phrasing taken from your own LinkedIn summary. */
   role: 'Backend Architect & Engineering Leader',
 
-  /** The one-sentence version of you, in the hero. */
-  tagline: 'I build systems that outlast the team that shipped them.',
+  /**
+   * The one-sentence version of you, in the hero.
+   *
+   * Deliberately "outlast me" rather than "outlast the team that shipped
+   * them": the original split the sentence into the builder and the mere
+   * shippers, and implied the team did not survive — an odd note given the
+   * M&A integration work. Making yourself the thing being outlasted keeps the
+   * durability claim and drops the comparison to anyone else.
+   */
+  tagline: 'I build systems that outlast me.',
 
   /** Appears under the hero and as the default meta description. */
   intro:

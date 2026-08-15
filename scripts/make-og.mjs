@@ -16,7 +16,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 // script runs outside Astro, so it cannot import the TypeScript module.
 const NAME = 'Travis Kool';
 const ROLE = 'Backend Architect & Engineering Leader';
-const TAGLINE = 'I build systems that outlast\nthe team that shipped them.';
+const TAGLINE = 'I build systems\nthat outlast me.';
 
 const PAPER = '#fbfaf7';
 const INK = '#16181c';
