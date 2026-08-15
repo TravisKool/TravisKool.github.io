@@ -91,6 +91,28 @@ fails the build rather than shipping broken.
 Set `draft: true` while working; it renders in dev and is excluded from
 production. Files prefixed `_` are templates — copy them, do not edit in place.
 
+### Flying is paragliding, not general aviation
+
+Travis is a cross-country and competition **paraglider** pilot. The vocabulary
+matters and getting it wrong is immediately obvious to any other pilot:
+
+- **wing**, not aircraft or plane
+- **launch** / **site** / **LZ**, not airport or runway
+- **XC distance in km** is the headline number, not hours
+- **airtime**, **cloudbase**, **thermals**, **glide**, **track log**
+
+His public record lives on XContest, paraglidingstats.com, and vol.flights —
+linked from `flyingProfiles` in `site.ts`. Competition results and pilot stats
+in that file are sourced from those sites and dated; refresh them rather than
+estimating.
+
+## Contact
+
+There is **no email address anywhere on the site** — that is deliberate, to
+avoid scraping. The only inbound channel is the Formspree-backed
+`ContactForm` component, configured via `formEndpoint` in `site.ts`. Do not
+reintroduce a `mailto:` link.
+
 ## Images
 
 GitHub Pages has a soft 1 GB repo limit, and git history is forever. **Never

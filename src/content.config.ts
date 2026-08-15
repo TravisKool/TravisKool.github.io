@@ -42,13 +42,23 @@ const flying = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/flying' }),
   schema: z.object({
     ...base,
-    /** e.g. "Cessna 172S" — rendered in the technical readout. */
-    aircraft: z.string().optional(),
-    /** e.g. ["KAPA", "KASE"] — rendered as KAPA → KASE. */
-    route: z.array(z.string()).default([]),
-    /** Hobbs or tach time for the flight. */
-    hours: z.number().optional(),
+    /** Wing make and model, e.g. "Ozone Zeno 2". Renders as the kicker. */
+    wing: z.string().optional(),
+    /** Launch site, e.g. "Chelan Butte". */
+    site: z.string().optional(),
+    /** Free-distance or task distance in kilometres. */
+    distance: z.number().optional(),
+    /** Airtime in hours, e.g. 3.5. */
+    airtime: z.number().optional(),
+    /** Max altitude in feet MSL. */
+    maxAltitude: z.number().optional(),
+    /** Conditions, e.g. "Strong thermals, 1200 fpm climbs". */
     conditions: z.string().optional(),
+    flightType: z
+      .enum(['xc', 'competition', 'local', 'hike-and-fly', 'acro'])
+      .default('xc'),
+    /** Link to the flight on XContest, vol.flights, etc. */
+    trackLog: z.url().optional(),
   }),
 });
 

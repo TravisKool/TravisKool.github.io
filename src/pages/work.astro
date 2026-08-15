@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import SectionRule from '../components/SectionRule.astro';
-import { roles } from '../data/site';
+import { roles, education, certifications } from '../data/site';
 ---
 
 <Base
@@ -36,7 +36,10 @@ import { roles } from '../data/site';
 
               <div class="role__body">
                 <h3 class="role__title">{role.title}</h3>
-                <p class="role__company">{role.company}</p>
+                <p class="role__company">
+                  {role.company}
+                  {role.location && <span class="role__location"> · {role.location}</span>}
+                </p>
                 <p class="role__summary">{role.summary}</p>
 
                 <ul class="role__highlights">
@@ -55,6 +58,36 @@ import { roles } from '../data/site';
           ))
         }
       </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionRule index="02" label="Education" />
+      <div class="education">
+        <h3 class="education__school">{education.school}</h3>
+        <p class="education__meta">{education.years} · {education.focus}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionRule index="03" label="Certifications" />
+      <ul class="certs">
+        {
+          certifications.map((cert, i) => (
+            <li class="cert" data-reveal data-reveal-delay={i * 50}>
+              <span class="cert__name">{cert.name}</span>
+              <span class="cert__line" aria-hidden="true" />
+              <span class="cert__meta">
+                {cert.issuer}
+                {cert.year && ` · ${cert.year}`}
+              </span>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </section>
 </Base>
@@ -186,10 +219,79 @@ import { roles } from '../data/site';
     padding: 0.3em 0.6em;
   }
 
+  .role__location {
+    color: var(--ink-faint);
+  }
+
+  /* ---- Education ------------------------------------------------------ */
+  .education__school {
+    font-size: var(--text-xl);
+    margin-block-end: var(--space-3);
+  }
+
+  .education__meta {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--ink-faint);
+  }
+
+  /* ---- Certifications -------------------------------------------------
+     Same leader-line treatment as the competition list on /flying, so the
+     two "record" sections of the site read as siblings. */
+  .certs {
+    list-style: none;
+    padding: 0;
+  }
+
+  .cert {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-4);
+    padding-block: var(--space-4);
+    border-block-end: var(--hairline) solid var(--rule);
+  }
+
+  .cert:first-child {
+    border-block-start: var(--hairline) solid var(--rule);
+  }
+
+  .cert__name {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .cert__line {
+    flex: 1;
+    block-size: var(--hairline);
+    background: var(--rule);
+  }
+
+  .cert__meta {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--ink-faint);
+    white-space: nowrap;
+  }
+
   @media (max-width: 46rem) {
     .role {
       grid-template-columns: 1fr;
       gap: var(--space-4);
+    }
+
+    .cert,
+    .comp {
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .cert__line {
+      display: none;
     }
   }
 </style>

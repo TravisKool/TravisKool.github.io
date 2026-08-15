@@ -18,11 +18,13 @@ const { Content } = await render(entry);
 // Only include facts this entry actually has — an empty readout cell looks
 // like a bug, not a design choice.
 const facts = [
-  entry.data.route.length > 1 && {
-    key: 'Route',
-    value: entry.data.route.join(' → '),
+  entry.data.site && { key: 'Site', value: entry.data.site },
+  entry.data.distance && { key: 'Distance', value: `${entry.data.distance} km` },
+  entry.data.airtime && { key: 'Airtime', value: `${entry.data.airtime.toFixed(1)} hrs` },
+  entry.data.maxAltitude && {
+    key: 'Max alt',
+    value: `${entry.data.maxAltitude.toLocaleString()} ft`,
   },
-  entry.data.hours && { key: 'Time', value: `${entry.data.hours.toFixed(1)} hrs` },
   entry.data.conditions && { key: 'Conditions', value: entry.data.conditions },
 ].filter(Boolean) as { key: string; value: string }[];
 ---
@@ -32,10 +34,20 @@ const facts = [
   description={entry.data.description}
   pubDate={entry.data.pubDate}
   updatedDate={entry.data.updatedDate}
-  kicker={entry.data.aircraft}
+  kicker={entry.data.wing}
   facts={facts}
   backHref="/flying/"
   backLabel="All flights"
 >
   <Content />
+
+  {
+    entry.data.trackLog && (
+      <p>
+        <a href={entry.data.trackLog} rel="noopener" target="_blank">
+          View the track log →
+        </a>
+      </p>
+    )
+  }
 </Article>

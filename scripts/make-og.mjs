@@ -15,7 +15,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 // Kept in sync with src/data/site.ts and src/styles/tokens.css by hand — this
 // script runs outside Astro, so it cannot import the TypeScript module.
 const NAME = 'Travis Kool';
-const ROLE = 'Software Architect & Engineering Lead';
+const ROLE = 'Backend Architect & Engineering Leader';
 const TAGLINE = 'I build systems that outlast\nthe team that shipped them.';
 
 const PAPER = '#fbfaf7';

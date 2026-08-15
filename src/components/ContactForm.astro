@@ -1,0 +1,265 @@
+---
+import { site } from '../data/site';
+
+/**
+ * Contact form backed by Formspree. No backend, no database, and the
+ * destination address never appears in the page source.
+ *
+ * Works without JavaScript: a plain form POST redirects to Formspree's own
+ * thank-you page. With JavaScript it submits via fetch and swaps in an inline
+ * confirmation, which is the nicer experience.
+ */
+const endpoint = site.formEndpoint;
+const configured = Boolean(endpoint && !endpoint.includes('TODO'));
+---
+
+{
+  configured ? (
+    <form class="form" action={endpoint} method="POST" data-contact-form>
+      <div class="form__row">
+        <div class="field">
+          <label class="field__label" for="name">
+            Name
+          </label>
+          <input class="field__input" type="text" id="name" name="name" required autocomplete="name" />
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="email">
+            Email
+          </label>
+          <input
+            class="field__input"
+            type="email"
+            id="email"
+            name="email"
+            required
+            autocomplete="email"
+          />
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field__label" for="message">
+          Message
+        </label>
+        <textarea class="field__input field__input--area" id="message" name="message" rows="5" required />
+      </div>
+
+      {/* Honeypot. Bots fill it in; humans never see it. */}
+      <div class="honeypot" aria-hidden="true">
+        <label for="company-website">Do not fill this in</label>
+        <input type="text" id="company-website" name="_gotcha" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <button class="form__submit" type="submit">
+        <span data-submit-label>Send message</span>
+        <span aria-hidden="true">→</span>
+      </button>
+
+      {/* Announced to screen readers when submission succeeds or fails. */}
+      <p class="form__status" role="status" aria-live="polite" data-form-status />
+    </form>
+  ) : (
+    <div class="form-setup">
+      <p class="label label--accent">Setup required</p>
+      <p class="form-setup__body">
+        The contact form is not connected yet. Create a free form at{' '}
+        <a href="https://formspree.io" rel="noopener" target="_blank">
+          formspree.io
+        </a>{' '}
+        and paste the endpoint into <code>formEndpoint</code> in{' '}
+        <code>src/data/site.ts</code>.
+      </p>
+    </div>
+  )
+}
+
+<script>
+  /**
+   * Progressive enhancement: submit via fetch so the visitor stays on the page.
+   * If anything fails, we fall back to telling them plainly rather than
+   * silently losing the message.
+   */
+  function initContactForm() {
+    const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+    if (!form || form.dataset.bound === 'true') return;
+    form.dataset.bound = 'true';
+
+    const status = form.querySelector<HTMLElement>('[data-form-status]');
+    const label = form.querySelector<HTMLElement>('[data-submit-label]');
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!status || !label || !button) return;
+
+      button.disabled = true;
+      label.textContent = 'Sending';
+      status.textContent = '';
+      status.classList.remove('is-error', 'is-success');
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+
+        if (response.ok) {
+          form.reset();
+          status.textContent = 'Thanks — your message is on its way.';
+          status.classList.add('is-success');
+          label.textContent = 'Sent';
+        } else {
+          throw new Error(`Form endpoint returned ${response.status}`);
+        }
+      } catch {
+        status.textContent =
+          'Something went wrong sending that. Please try again, or reach me on LinkedIn.';
+        status.classList.add('is-error');
+        label.textContent = 'Send message';
+        button.disabled = false;
+      }
+    });
+  }
+
+  initContactForm();
+  document.addEventListener('astro:page-load', initContactForm);
+</script>
+
+<style>
+  .form {
+    max-inline-size: var(--measure-wide);
+    margin-block-start: var(--space-8);
+  }
+
+  .form__row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
+    gap: var(--space-6);
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-block-end: var(--space-6);
+  }
+
+  .field__label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--ink-faint);
+  }
+
+  /* Underline-only inputs rather than boxes — consistent with the hairline
+     language used everywhere else on the site. */
+  .field__input {
+    padding: var(--space-3) 0;
+    background: transparent;
+    border: 0;
+    border-block-end: var(--hairline) solid var(--rule-strong);
+    border-radius: 0;
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    transition: border-color var(--duration) var(--ease);
+  }
+
+  .field__input:hover {
+    border-color: var(--ink-faint);
+  }
+
+  .field__input:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  /* The underline style removes the usual focus affordance, so restore an
+     explicit one for keyboard users. */
+  .field__input:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+  }
+
+  .field__input--area {
+    resize: vertical;
+    line-height: var(--leading-normal);
+  }
+
+  .honeypot {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .form__submit {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-block-start: var(--space-2);
+    padding: var(--space-3) var(--space-6);
+    background: var(--ink);
+    color: var(--paper);
+    border: var(--hairline) solid var(--ink);
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    cursor: pointer;
+    transition: background-color var(--duration) var(--ease),
+      border-color var(--duration) var(--ease), color var(--duration) var(--ease);
+  }
+
+  .form__submit:hover:not(:disabled) {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .form__submit:disabled {
+    opacity: 0.55;
+    cursor: progress;
+  }
+
+  .form__status {
+    margin-block-start: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    min-block-size: 1.4em;
+  }
+
+  .form__status.is-success {
+    color: var(--accent);
+  }
+
+  .form__status.is-error {
+    color: var(--signal);
+  }
+
+  .form-setup {
+    max-inline-size: var(--measure);
+    margin-block-start: var(--space-8);
+    padding: var(--space-6);
+    border: var(--hairline) dashed var(--rule-strong);
+    border-radius: var(--radius);
+  }
+
+  .form-setup__body {
+    margin-block-start: var(--space-3);
+    color: var(--ink-muted);
+    line-height: var(--leading-normal);
+  }
+
+  .form-setup code {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    color: var(--ink);
+  }
+</style>

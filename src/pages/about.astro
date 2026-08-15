@@ -1,7 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import SectionRule from '../components/SectionRule.astro';
-import { site, principles } from '../data/site';
+import ContactForm from '../components/ContactForm.astro';
+import { site, principles, education } from '../data/site';
 ---
 
 <Base
@@ -32,24 +33,31 @@ import { site, principles } from '../data/site';
 
       <div class="about__bio prose measure">
         <p>
-          I have spent about fifteen years building software, and the last three
-          or so leading the people who build it — currently as an architect
-          reporting to the CTO at {site.company}.
+          I am a backend architect and engineering leader based in {site.location},
+          with more than fifteen years building software and the last few
+          leading the people who build it.
         </p>
         <p>
-          My work sits at the seam between the two. I still care a great deal
-          about the shape of the code: whether the boundaries are honest,
-          whether the tests are telling the truth, whether the next engineer to
-          open the file will understand it without a meeting. But most of the
-          leverage now comes from decisions made earlier — which volatilities to
-          decompose around, which things to automate, which arguments are worth
-          having.
+          My work sits at the seam between those two things. I still care a
+          great deal about the shape of the code — whether the boundaries are
+          honest, whether the tests are telling the truth, whether the next
+          engineer to open the file will understand it without a meeting. But
+          most of the leverage now comes from decisions made earlier: which
+          volatilities to decompose around, which things to automate, which
+          arguments are worth having.
+        </p>
+        <p>
+          I studied computer security and web development at {education.school},
+          and most of my career since has been in the .NET ecosystem — C#,
+          ASP.NET Core, SQL Server — with the architectural habits that come
+          from watching systems get harder to change and deciding to do
+          something about it.
         </p>
         <p>
           <em>
-            TODO: replace these paragraphs with your own voice. This is the page
-            recruiters read most carefully, and it should sound like you rather
-            than like a well-behaved draft.
+            TODO: replace or extend these paragraphs in your own voice. This is
+            the page recruiters read most carefully, and it should sound like
+            you rather than like a well-behaved draft.
           </em>
         </p>
       </div>
@@ -77,10 +85,17 @@ import { site, principles } from '../data/site';
       <SectionRule index="02" label="Away from the keyboard" />
       <div class="prose measure">
         <p>
-          TODO: this is the section that makes you a person rather than a
-          résumé. Flying has its own <a href="/flying/">section</a>; use this
-          space for everything else — what you build, read, climb, cook, or
-          argue about.
+          I fly cross-country and competition paragliding — enough of it that it
+          has <a href="/flying/">its own section</a>. It turns out to be the
+          same discipline as engineering wearing different clothes: you plan
+          carefully, you commit, and then you are honest with yourself
+          afterwards about what actually happened.
+        </p>
+        <p>
+          <em>
+            TODO: everything else that makes you a person rather than a résumé —
+            what you build, read, climb, cook, or argue about.
+          </em>
         </p>
       </div>
     </div>
@@ -99,16 +114,14 @@ import { site, principles } from '../data/site';
             </li>
           ))
         }
-        {
-          site.email && (
-            <li>
-              <a href={`mailto:${site.email}`}>
-                Email <span aria-hidden="true">→</span>
-              </a>
-            </li>
-          )
-        }
       </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionRule index="04" label="Get in touch" />
+      <ContactForm />
     </div>
   </section>
 </Base>
