@@ -309,7 +309,7 @@ export const employers: Employer[] = [
 export const education = {
   school: 'Sonoma State University',
   years: '2005 — 2010',
-  focus: 'Computer security and web development',
+  degree: 'Computer Science',
 };
 
 export const certifications = [
