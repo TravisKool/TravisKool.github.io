@@ -3,44 +3,60 @@ import Base from '../../layouts/Base.astro';
 import EntryRow from '../../components/EntryRow.astro';
 import SectionRule from '../../components/SectionRule.astro';
 import { getFlying } from '../../lib/collections';
-import { competitions, flyingProfiles, pilotStats } from '../../data/site';
+import {
+  competitions,
+  compStats,
+  flyingProfiles,
+  pilotTotals,
+  pilotRecords,
+  pilotAverages,
+  pilotPlaces,
+  bestFlight,
+} from '../../data/site';
 
 const entries = await getFlying();
 
-// Aggregates across logged entries. These grow as posts are added; the
-// headline stats above them come from the scoring sites.
-const totalDistance = entries.reduce((sum, e) => sum + (e.data.distance ?? 0), 0);
-const totalAirtime = entries.reduce((sum, e) => sum + (e.data.airtime ?? 0), 0);
-const sites = new Set(entries.map((e) => e.data.site).filter(Boolean));
+const countryNames: Record<string, string> = {
+  US: 'United States',
+  BR: 'Brazil',
+  CA: 'Canada',
+  CU: 'Cuba',
+  CO: 'Colombia',
+  FR: 'France',
+};
 ---
 
 <Base
   title="Flying"
-  description="Cross-country and competition paragliding — flights, sites, and what the air taught me."
+  description="131 flights, 4,304 km of free distance, and 254 hours of airtime across 32 sites in 6 countries. Cross-country and competition paragliding."
 >
   <section class="page-head grid-backdrop">
     <div class="container">
       <p class="label label--accent">Paragliding</p>
       <h1 class="page-head__title">Cross-country, under a wing.</h1>
       <p class="page-head__sub measure-wide">
-        I fly cross-country and competition paragliding out of the Sierra and
-        the Great Basin. It is the other discipline where preparation, honest
-        debriefs, and respect for the things you cannot control decide how the
-        day goes — which is most of why it appears on an engineer's site.
+        I fly cross-country and competition paragliding. It is the other
+        discipline where preparation, honest debriefs, and respect for the
+        things you cannot control decide how the day goes — which is most of
+        why it appears on an engineer's site.
       </p>
 
-      <dl class="stats">
+      <dl class="totals">
         {
-          pilotStats.map((stat) => (
-            <div class="stats__item">
+          pilotTotals.map((stat) => (
+            <div class="totals__item">
               <dt class="label">{stat.label}</dt>
-              <dd class="stats__value">{stat.value}</dd>
+              <dd class="totals__value">
+                {stat.value}
+                {stat.unit && <span class="totals__unit">{stat.unit}</span>}
+              </dd>
             </div>
           ))
         }
       </dl>
-      <p class="stats__note">
-        Competition record via
+
+      <p class="source">
+        Career totals via
         {
           flyingProfiles.map((profile, i) => (
             <>
@@ -55,9 +71,128 @@ const sites = new Set(entries.map((e) => e.data.site).filter(Boolean));
     </div>
   </section>
 
+  <!-- ==================================================================
+       BEST FLIGHT
+       Three personal records in one day. It earns the largest block on the
+       page — this is the flight a reader should remember.
+       ================================================================== -->
   <section class="section">
     <div class="container">
-      <SectionRule index="01" label="Competitions" />
+      <SectionRule index="01" label="Best flight" />
+
+      <article class="best" data-reveal>
+        <div class="best__head">
+          <p class="best__type label label--accent">{bestFlight.routeType}</p>
+          <h3 class="best__site">{bestFlight.site}</h3>
+          <p class="best__place">{bestFlight.place}</p>
+          <p class="best__date">{bestFlight.date} · {bestFlight.time}</p>
+        </div>
+
+        <dl class="best__facts">
+          {
+            bestFlight.facts.map((fact) => (
+              <div class="best__fact">
+                <dt class="label">{fact.key}</dt>
+                <dd class="best__value">{fact.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+
+        <p class="best__note">{bestFlight.note}</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       RECORDS
+       ================================================================== -->
+  <section class="section">
+    <div class="container">
+      <SectionRule index="02" label="Personal bests" />
+      <ul class="records">
+        {
+          pilotRecords.map((record, i) => (
+            <li class="record" data-reveal data-reveal-delay={i * 50}>
+              <span class="label">{record.label}</span>
+              <span class="record__value">
+                {record.value}
+                {record.unit && <span class="record__unit">{record.unit}</span>}
+              </span>
+              {record.note && <span class="record__note">{record.note}</span>}
+              <span class="record__date">{record.date}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       TYPICAL FLIGHT
+       Averages give the records their meaning — a 184 km day reads very
+       differently next to a 32 km average.
+       ================================================================== -->
+  <section class="section">
+    <div class="container">
+      <SectionRule index="03" label="A typical flight" />
+      <dl class="averages">
+        {
+          pilotAverages.map((stat) => (
+            <div class="averages__item">
+              <dt class="label">{stat.label}</dt>
+              <dd class="averages__value">{stat.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       PLACES
+       ================================================================== -->
+  <section class="section">
+    <div class="container">
+      <SectionRule index="04" label="Places" />
+      <div class="places" data-reveal>
+        <p class="places__lead">
+          <strong>{pilotPlaces.sites} launch sites</strong> across
+          <strong>{pilotPlaces.countries.length} countries</strong>. Most flown:{' '}
+          <strong>{pilotPlaces.mostFlown}</strong>.
+        </p>
+        <ul class="places__countries">
+          {
+            pilotPlaces.countries.map((code) => (
+              <li class="places__country">
+                <span class="places__code">{code}</span>
+                <span class="places__name">{countryNames[code] ?? code}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       COMPETITIONS
+       ================================================================== -->
+  <section class="section">
+    <div class="container">
+      <SectionRule index="05" label="Competitions" />
+
+      <dl class="averages averages--tight">
+        {
+          compStats.map((stat) => (
+            <div class="averages__item">
+              <dt class="label">{stat.label}</dt>
+              <dd class="averages__value">{stat.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+
       <ol class="comps">
         {
           competitions.map((comp, i) => (
@@ -72,51 +207,39 @@ const sites = new Set(entries.map((e) => e.data.site).filter(Boolean));
     </div>
   </section>
 
+  <!-- ==================================================================
+       FLIGHT LOG
+       ================================================================== -->
   <section class="section">
     <div class="container">
-      <SectionRule index="02" label="Flight log" />
+      <SectionRule index="06" label="Flight log" />
       {
         entries.length > 0 ? (
-          <>
-            <dl class="stats stats--compact">
-              <div class="stats__item">
-                <dt class="label">Logged here</dt>
-                <dd class="stats__value">{totalDistance.toFixed(0)} km</dd>
-              </div>
-              <div class="stats__item">
-                <dt class="label">Airtime</dt>
-                <dd class="stats__value">{totalAirtime.toFixed(1)} hrs</dd>
-              </div>
-              <div class="stats__item">
-                <dt class="label">Sites</dt>
-                <dd class="stats__value">{sites.size}</dd>
-              </div>
-            </dl>
-
-            <div class="index">
-              {entries.map((entry, i) => (
-                <EntryRow
-                  href={`/flying/${entry.id}/`}
-                  index={i + 1}
-                  title={entry.data.title}
-                  description={entry.data.description}
-                  kicker={entry.data.wing}
-                  date={entry.data.pubDate}
-                  featured={entry.data.featured}
-                  facts={[
-                    entry.data.site ?? '',
-                    entry.data.distance ? `${entry.data.distance} km` : '',
-                    entry.data.airtime ? `${entry.data.airtime.toFixed(1)} hrs` : '',
-                    entry.data.maxAltitude
-                      ? `${entry.data.maxAltitude.toLocaleString()} ft`
-                      : '',
-                  ].filter(Boolean)}
-                />
-              ))}
-            </div>
-          </>
+          <div class="index">
+            {entries.map((entry, i) => (
+              <EntryRow
+                href={`/flying/${entry.id}/`}
+                index={i + 1}
+                title={entry.data.title}
+                description={entry.data.description}
+                kicker={entry.data.wing}
+                date={entry.data.pubDate}
+                featured={entry.data.featured}
+                facts={[
+                  entry.data.site ?? '',
+                  entry.data.distance ? `${entry.data.distance} km` : '',
+                  entry.data.airtime ? `${entry.data.airtime.toFixed(1)} hrs` : '',
+                  entry.data.maxAltitude
+                    ? `${entry.data.maxAltitude.toLocaleString()} m`
+                    : '',
+                ].filter(Boolean)}
+              />
+            ))}
+          </div>
         ) : (
-          <p class="empty">No flights written up yet.</p>
+          <p class="empty">
+            No flights written up yet — the numbers above are the log for now.
+          </p>
         )
       }
     </div>
@@ -141,38 +264,39 @@ const sites = new Set(entries.map((e) => e.data.site).filter(Boolean));
     color: var(--ink-muted);
   }
 
-  .stats {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-6) var(--space-12);
+  /* ---- Career totals -------------------------------------------------- */
+  .totals {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(9rem, 100%), 1fr));
+    gap: var(--space-8) var(--space-6);
     margin-block-start: var(--space-12);
-    padding-block-start: var(--space-6);
+    padding-block-start: var(--space-8);
     border-block-start: var(--hairline) solid var(--rule);
   }
 
-  .stats--compact {
-    margin-block-start: 0;
-    margin-block-end: var(--space-12);
-    border-block-start: 0;
-    padding-block-start: 0;
-  }
-
-  .stats__item {
+  .totals__item {
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
   }
 
-  .stats__value {
+  .totals__value {
     font-family: var(--font-display);
-    font-size: var(--text-xl);
+    font-size: var(--text-2xl);
     letter-spacing: var(--tracking-tight);
     font-variant-numeric: tabular-nums;
     margin: 0;
   }
 
-  .stats__note {
-    margin-block-start: var(--space-6);
+  .totals__unit {
+    margin-inline-start: 0.2em;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--ink-faint);
+  }
+
+  .source {
+    margin-block-start: var(--space-8);
     font-family: var(--font-mono);
     font-size: var(--text-2xs);
     text-transform: uppercase;
@@ -180,19 +304,196 @@ const sites = new Set(entries.map((e) => e.data.site).filter(Boolean));
     color: var(--ink-faint);
   }
 
-  .stats__note a {
+  .source a {
     color: var(--ink-muted);
     text-decoration: none;
     border-block-end: var(--hairline) solid var(--rule-strong);
   }
 
-  .stats__note a:hover {
+  .source a:hover {
     color: var(--accent);
     border-color: var(--accent);
   }
 
-  /* Competition list: name, leader line, date. Reads like a programme or an
-     index page, which suits the editorial half of the design. */
+  /* ---- Best flight -----------------------------------------------------
+     The one framed block on the site. Everything else is open and ruled, so
+     the border alone is enough to make this read as the headline. */
+  .best {
+    border: var(--hairline) solid var(--rule-strong);
+    border-radius: var(--radius);
+    padding: clamp(var(--space-6), 3vw, var(--space-12));
+    background: var(--paper-raised);
+  }
+
+  .best__type {
+    margin-block-end: var(--space-4);
+  }
+
+  .best__site {
+    font-size: var(--text-2xl);
+    margin-block-end: var(--space-2);
+  }
+
+  .best__place {
+    color: var(--ink-muted);
+  }
+
+  .best__date {
+    margin-block-start: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--ink-faint);
+  }
+
+  .best__facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(8rem, 100%), 1fr));
+    gap: var(--space-6);
+    margin-block: var(--space-12) var(--space-8);
+    padding-block-start: var(--space-8);
+    border-block-start: var(--hairline) solid var(--rule);
+  }
+
+  .best__fact {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .best__value {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    letter-spacing: var(--tracking-tight);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .best__note {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--text-lg);
+    color: var(--ink-muted);
+  }
+
+  /* ---- Records -------------------------------------------------------- */
+  .records {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr));
+    gap: var(--space-8) var(--space-6);
+    list-style: none;
+    padding: 0;
+  }
+
+  .record {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding-block-start: var(--space-4);
+    border-block-start: var(--hairline) solid var(--rule);
+  }
+
+  .record__value {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    letter-spacing: var(--tracking-tight);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .record__unit {
+    margin-inline-start: 0.2em;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--ink-faint);
+  }
+
+  .record__note,
+  .record__date {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--ink-faint);
+  }
+
+  /* The imperial conversion sits directly under the metric figure. */
+  .record__note {
+    color: var(--ink-muted);
+  }
+
+  /* ---- Averages ------------------------------------------------------- */
+  .averages {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(11rem, 100%), 1fr));
+    gap: var(--space-6);
+  }
+
+  .averages--tight {
+    margin-block-end: var(--space-12);
+  }
+
+  .averages__item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .averages__value {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    letter-spacing: var(--tracking-tight);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---- Places --------------------------------------------------------- */
+  .places__lead {
+    max-inline-size: var(--measure-wide);
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-tight);
+    color: var(--ink-muted);
+  }
+
+  .places__lead strong {
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .places__countries {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-block-start: var(--space-8);
+    list-style: none;
+    padding: 0;
+  }
+
+  .places__country {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    border: var(--hairline) solid var(--rule);
+    border-radius: var(--radius);
+    padding: 0.35em 0.7em;
+  }
+
+  .places__code {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    font-weight: 600;
+    letter-spacing: var(--tracking-label);
+    color: var(--accent);
+  }
+
+  .places__name {
+    font-size: var(--text-sm);
+    color: var(--ink-muted);
+  }
+
+  /* ---- Competitions ---------------------------------------------------- */
   .comps {
     list-style: none;
     padding: 0;
@@ -235,5 +536,16 @@ const sites = new Set(entries.map((e) => e.data.site).filter(Boolean));
     font-family: var(--font-mono);
     font-size: var(--text-sm);
     color: var(--ink-faint);
+  }
+
+  @media (max-width: 42rem) {
+    .comp {
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .comp__line {
+      display: none;
+    }
   }
 </style>

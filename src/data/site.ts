@@ -316,14 +316,28 @@ export const certifications = [
 ];
 
 /* --------------------------------------------------------------------------
-   HERO STATS — rendered on /
+   CAREER MILESTONES
+   The raw dates the hero stats are computed from. Edit these, never the
+   rendered numbers — see src/lib/career.ts.
    -------------------------------------------------------------------------- */
-export const heroStats = [
-  { label: 'Engineering', value: '15 yrs' },
-  { label: 'Leading teams', value: '4 yrs' },
-  { label: 'Fintech', value: '8 yrs' },
-  { label: 'Currently', value: site.status },
-];
+export const milestones = {
+  /**
+   * Infinite Vision, Jan 2011 — first professional engineering role.
+   * The 2008 Torrent Technologies internship is deliberately excluded: it was
+   * a four-month intern stint followed by a two-and-a-half year gap, and
+   * counting from it would overstate the number.
+   */
+  careerStart: '2011-01',
+
+  /** Technical Lead of Engineering at Retired.com. */
+  leadershipStart: '2022-04',
+  /** Sabbatical began, so leadership tenure stopped accruing. */
+  leadershipEnd: '2026-03',
+
+  /** Hired as founding C# engineer, Bitcoin IRA. */
+  fintechStart: '2018-05',
+  fintechEnd: '2026-03',
+} as const;
 
 /* --------------------------------------------------------------------------
    PRINCIPLES — rendered on / and /about
@@ -371,12 +385,72 @@ export const competitions = [
 ];
 
 /**
- * Headline pilot stats. Sourced from paraglidingstats.com, August 2026.
- * TODO: add total airtime, total XC distance, and your best flight — those
- * were not exposed to an automated fetch, and they are the numbers a reader
- * will care about most.
+ * Career totals. Source: vol.flights, August 2026.
+ * Refresh after a big season — everything on /flying reads from here.
  */
-export const pilotStats = [
+export const pilotTotals = [
+  { label: 'Flights', value: '131' },
+  { label: 'Free distance', value: '4,304', unit: 'km' },
+  { label: 'Airtime', value: '254', unit: 'h 36m' },
+  { label: 'Score', value: '4,850.5', unit: 'pts' },
+];
+
+/** Personal bests. */
+export const pilotRecords = [
+  { label: 'Best free distance', value: '184', unit: 'km', date: 'Jul 29, 2026' },
+  { label: 'Best flat triangle', value: '177', unit: 'km', date: 'Jul 29, 2026' },
+  { label: 'Best FAI triangle', value: '98', unit: 'km', date: 'Jun 21, 2026' },
+  { label: 'Most airtime', value: '7h 7m', unit: '', date: 'Jul 29, 2026' },
+  { label: 'Best score', value: '249.2', unit: 'pts', date: 'Jul 29, 2026' },
+  {
+    label: 'Max altitude',
+    value: '5,834',
+    unit: 'm',
+    /** ~19,140 ft — the number that lands for a non-metric reader. */
+    note: '19,140 ft',
+    date: 'Sep 1, 2025',
+  },
+];
+
+/**
+ * The standout flight. Jul 29 2026 set three personal records in one day —
+ * best distance, best score, and most airtime — so it gets its own block.
+ */
+export const bestFlight = {
+  date: 'Jul 29, 2026',
+  time: '1:15 PM',
+  site: 'Mt 7',
+  place: 'Golden, British Columbia, Canada',
+  routeType: 'Flat triangle',
+  facts: [
+    { key: 'Free distance', value: '184 km' },
+    { key: 'Score', value: '249.2 pts' },
+    { key: 'Flight time', value: '7h 7m' },
+    { key: 'Avg speed', value: '25.9 km/h' },
+    { key: 'Max altitude', value: '3,694 m' },
+  ],
+  note: 'Three personal records in a single flight — distance, score, and airtime.',
+};
+
+/** Typical flight, which gives the records their context. */
+export const pilotAverages = [
+  { label: 'Avg distance', value: '32 km' },
+  { label: 'Avg duration', value: '1h 56m' },
+  { label: 'Avg speed', value: '16.2 km/h' },
+  { label: 'Avg score', value: '37.0 pts' },
+  { label: 'Biggest month', value: 'Jun 2026 · 888 km' },
+  { label: 'Biggest year', value: '2026 · 2,476 km' },
+];
+
+/** Where the flying happens. */
+export const pilotPlaces = {
+  sites: 32,
+  countries: ['US', 'BR', 'CA', 'CU', 'CO', 'FR'],
+  mostFlown: 'Woodrat Mountain',
+};
+
+/** Competition ranking. Source: paraglidingstats.com, August 2026. */
+export const compStats = [
   { label: 'World ranking', value: '#1015' },
   { label: 'Competitions', value: '4' },
   { label: 'Tasks flown', value: '14' },

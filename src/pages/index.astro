@@ -5,14 +5,40 @@ import EntryRow from '../components/EntryRow.astro';
 import {
   site,
   principles,
-  pilotStats,
-  heroStats,
+  pilotTotals,
+  milestones,
   currently,
 } from '../data/site';
 import { getWriting, getFlying, featuredFirst } from '../lib/collections';
+import { yearsSoFar, tenureYears, durationBetween } from '../lib/career';
 
 const writing = featuredFirst(await getWriting()).slice(0, 4);
 const flying = (await getFlying()).slice(0, 3);
+
+/**
+ * Computed from the dates in `milestones`, not hand-written — so they cannot
+ * drift from the timeline on /work. Engineering keeps accruing; leadership and
+ * fintech are closed ranges that ended when the sabbatical began.
+ * The `title` gives the precise figure on hover.
+ */
+const heroStats = [
+  {
+    label: 'Engineering',
+    value: `${yearsSoFar(milestones.careerStart)} yrs`,
+    title: durationBetween(milestones.careerStart),
+  },
+  {
+    label: 'Leading teams',
+    value: `${tenureYears(milestones.leadershipStart, milestones.leadershipEnd)} yrs`,
+    title: durationBetween(milestones.leadershipStart, milestones.leadershipEnd),
+  },
+  {
+    label: 'Fintech',
+    value: `${tenureYears(milestones.fintechStart, milestones.fintechEnd)} yrs`,
+    title: durationBetween(milestones.fintechStart, milestones.fintechEnd),
+  },
+  { label: 'Currently', value: site.status },
+];
 ---
 
 <Base>
@@ -34,7 +60,9 @@ const flying = (await getFlying()).slice(0, 3);
           heroStats.map((stat) => (
             <div class="stats__item">
               <dt class="label">{stat.label}</dt>
-              <dd class="stats__value">{stat.value}</dd>
+              <dd class="stats__value" title={stat.title}>
+                {stat.value}
+              </dd>
             </div>
           ))
         }
@@ -137,10 +165,13 @@ const flying = (await getFlying()).slice(0, 3);
 
         <dl class="stats">
           {
-            pilotStats.map((stat) => (
+            pilotTotals.map((stat) => (
               <div class="stats__item">
                 <dt class="label">{stat.label}</dt>
-                <dd class="stats__value">{stat.value}</dd>
+                <dd class="stats__value">
+                  {stat.value}
+                  {stat.unit && <span class="stats__unit">{stat.unit}</span>}
+                </dd>
               </div>
             ))
           }
@@ -245,7 +276,17 @@ const flying = (await getFlying()).slice(0, 3);
     font-family: var(--font-display);
     font-size: var(--text-xl);
     letter-spacing: var(--tracking-tight);
+    font-variant-numeric: tabular-nums;
     margin: 0;
+  }
+
+  /* Units sit smaller and quieter than the figure, the way they do on an
+     instrument face. */
+  .stats__unit {
+    margin-inline-start: 0.2em;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--ink-faint);
   }
 
   /* ---- Currently ------------------------------------------------------

@@ -1,13 +1,13 @@
 ---
-title: 'Chelan Butte, first 100'
+title: 'Mt 7, the 184'
 description: A template flight entry — copy this file, rename it, and fill in the details.
-pubDate: 2026-08-13
-wing: 'TODO: your wing, e.g. Ozone Zeno 2'
-site: 'Chelan Butte'
-distance: 104
-airtime: 4.2
-maxAltitude: 12400
-conditions: 'Strong thermals, 1000+ fpm, light convergence late'
+pubDate: 2026-07-29
+wing: 'TODO: your wing'
+site: 'Mt 7, Golden BC'
+distance: 184
+airtime: 7.1
+maxAltitude: 3694
+conditions: 'Strong thermals, flat triangle'
 flightType: 'xc'
 featured: false
 draft: true
@@ -22,6 +22,10 @@ draft: true
 > vol.flights URL and a link renders at the end of the post.
 >
 > `flightType` is one of `xc`, `competition`, `local`, `hike-and-fly`, `acro`.
+> `distance` is km and `maxAltitude` is metres, matching vol.flights.
+>
+> The values above are your Jul 29 2026 Mt 7 flight — the triple-PR day. That
+> flight in particular deserves a real writeup.
 
 ## Conditions
 

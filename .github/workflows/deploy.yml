@@ -3,6 +3,18 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+
+  # Weekly rebuild so time-derived values stay current without a commit.
+  # The hero's "Engineering — N yrs" is computed from a date in site.ts, so a
+  # site that is only built on push would still claim 15 years well into the
+  # sixteenth. Runs Mondays at 06:00 UTC.
+  #
+  # Note: GitHub disables scheduled workflows on public repos after 60 days
+  # with no repository activity. If the schedule stops firing, push any commit
+  # or re-enable it from the Actions tab.
+  schedule:
+    - cron: '0 6 * * 1'
+
   # Allows a manual run from the Actions tab without pushing a commit.
   workflow_dispatch:
 

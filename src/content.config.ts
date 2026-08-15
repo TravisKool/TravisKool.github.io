@@ -50,7 +50,7 @@ const flying = defineCollection({
     distance: z.number().optional(),
     /** Airtime in hours, e.g. 3.5. */
     airtime: z.number().optional(),
-    /** Max altitude in feet MSL. */
+    /** Max altitude in metres, matching the units used by vol.flights. */
     maxAltitude: z.number().optional(),
     /** Conditions, e.g. "Strong thermals, 1200 fpm climbs". */
     conditions: z.string().optional(),
