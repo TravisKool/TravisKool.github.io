@@ -349,7 +349,13 @@ export const milestones = {
 
 /* --------------------------------------------------------------------------
    PRINCIPLES — rendered on / and /about
-   Taken from the four brackets in your GitHub bio.
+
+   ⚠️ PROVENANCE: the four TITLES are yours, taken verbatim from the bracketed
+   lines in your GitHub bio. The four BODY paragraphs were written by Claude as
+   elaboration — they are not from LinkedIn, GitHub, or anything you wrote.
+   They are plausible, but they are not your words. Rewrite them in your own
+   voice when you get a chance; this is the section that most reads as
+   "here is how I think".
    -------------------------------------------------------------------------- */
 export const principles = [
   {
@@ -366,7 +372,10 @@ export const principles = [
   },
   {
     title: 'A drive to automate',
-    body: 'Anything done manually twice is a candidate. The compounding return on removed toil is nearly always underestimated.',
+    // Was: "The compounding return on removed toil is nearly always
+    // underestimated." — that made a claim about other people's judgement.
+    // This version makes the same point as a claim about the work itself.
+    body: 'Anything done manually twice is a candidate. Removing toil compounds in a way that is easy to miss until you look back at a year of it.',
   },
 ];
 
