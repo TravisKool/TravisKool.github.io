@@ -19,11 +19,15 @@ const { Content } = await render(entry);
 // like a bug, not a design choice.
 const facts = [
   entry.data.site && { key: 'Site', value: entry.data.site },
+  entry.data.wing && { key: 'Wing', value: entry.data.wing },
   entry.data.distance && { key: 'Distance', value: `${entry.data.distance} km` },
   entry.data.airtime && { key: 'Airtime', value: `${entry.data.airtime.toFixed(1)} hrs` },
+  // Metres, matching the schema and vol.flights. This read `ft` against a value
+  // the schema documents as metric, so the same number rendered as feet here
+  // and as metres on the index.
   entry.data.maxAltitude && {
     key: 'Max alt',
-    value: `${entry.data.maxAltitude.toLocaleString()} ft`,
+    value: `${entry.data.maxAltitude.toLocaleString()} m`,
   },
   entry.data.conditions && { key: 'Conditions', value: entry.data.conditions },
 ].filter(Boolean) as { key: string; value: string }[];
@@ -34,10 +38,10 @@ const facts = [
   description={entry.data.description}
   pubDate={entry.data.pubDate}
   updatedDate={entry.data.updatedDate}
-  kicker={entry.data.wing}
+  kicker={entry.data.kind}
   facts={facts}
   backHref="/flying/"
-  backLabel="All flights"
+  backLabel="The logbook"
 >
   <Content />
 

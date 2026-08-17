@@ -54,8 +54,26 @@ const flying = defineCollection({
     maxAltitude: z.number().optional(),
     /** Conditions, e.g. "Strong thermals, 1200 fpm climbs". */
     conditions: z.string().optional(),
-    flightType: z
-      .enum(['xc', 'competition', 'local', 'hike-and-fly', 'acro'])
+    /**
+     * What sort of entry this is — drives the mono kicker, the way `kind` does
+     * on the writing collection.
+     *
+     * Not every entry in this collection is one flight. A competition or a
+     * fly-in wrap-up covers a week, and a trip covers months; labelling those
+     * with a wing name (the old behaviour) told the reader nothing about what
+     * they were about to read.
+     */
+    kind: z
+      .enum([
+        'xc',
+        'competition',
+        'fly-in',
+        'trip',
+        'siv',
+        'local',
+        'hike-and-fly',
+        'acro',
+      ])
       .default('xc'),
     /** Link to the flight on XContest, vol.flights, etc. */
     trackLog: z.url().optional(),

@@ -2,12 +2,14 @@
 import Base from '../layouts/Base.astro';
 import SectionRule from '../components/SectionRule.astro';
 import EntryRow from '../components/EntryRow.astro';
+import PhotoGrid from '../components/PhotoGrid.astro';
 import {
   site,
   principles,
   pilotTotals,
   milestones,
   currently,
+  currentlyPhotos,
 } from '../data/site';
 import { getWriting, getFlying, featuredFirst } from '../lib/collections';
 import { yearsSoFar, tenureYears, durationBetween } from '../lib/career';
@@ -97,6 +99,12 @@ const heroStats = [
           }
         </dl>
       </div>
+
+      <!-- Two frames, one per half of the sabbatical: the flying and the
+           being-there. Deliberately the only photographs on the homepage. -->
+      <div class="now__photos">
+        <PhotoGrid photos={currentlyPhotos} columns={2} crop="square" />
+      </div>
     </div>
   </section>
 
@@ -154,7 +162,7 @@ const heroStats = [
        ================================================================== -->
   <section class="section">
     <div class="container">
-      <SectionRule index="04" label="Flying" href="/flying/" linkLabel="The flight log" />
+      <SectionRule index="04" label="Flying" href="/flying/" linkLabel="The logbook" />
 
       <div class="flying" data-reveal>
         <p class="flying__lead measure-wide">
@@ -187,7 +195,7 @@ const heroStats = [
                 index={i + 1}
                 title={entry.data.title}
                 description={entry.data.description}
-                kicker={entry.data.wing}
+                kicker={entry.data.kind}
                 date={entry.data.pubDate}
                 facts={[
                   entry.data.site ?? '',
@@ -333,6 +341,10 @@ const heroStats = [
     font-family: var(--font-mono);
     font-size: var(--text-sm);
     color: var(--ink);
+  }
+
+  .now__photos {
+    margin-block-start: var(--space-12);
   }
 
   /* ---- Principles ---------------------------------------------------- */

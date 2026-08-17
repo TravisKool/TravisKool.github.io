@@ -1,7 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import SectionRule from '../components/SectionRule.astro';
-import { site, principles, education } from '../data/site';
+import PhotoGrid from '../components/PhotoGrid.astro';
+import { site, principles, education, awayGallery } from '../data/site';
 ---
 
 <Base
@@ -56,10 +57,12 @@ import { site, principles, education } from '../data/site';
           acquisitions.
         </p>
         <p>
-          Since March 2026 I have been on a deliberate sabbatical in Brazil,
-          flying cross-country and researching agentic AI systems. The question
-          I keep circling is whether autonomous agents can be made to operate
-          like a good engineering team — enforcing precision, decoupling, and
+          Since March 2026 I have been on a deliberate sabbatical — the first
+          three months of it in Brazil, and the rest split between a heavy
+          competition flying season and building a new application end to end
+          with agents doing the writing and the reviewing. The question I keep
+          circling is whether autonomous agents can be made to operate like a
+          good engineering team — enforcing precision, decoupling, and
           long-term quality under aggressive velocity, rather than quietly
           trading them away for speed.
         </p>
@@ -98,10 +101,20 @@ import { site, principles, education } from '../data/site';
           afterwards about what actually happened.
         </p>
         <p>
-          Right now that means mornings of pão de queijo and Portuguese
-          practice, and afternoons either in the terminal or somewhere around
-          18,000 feet.
+          Right now that means a season that has run more or less continuously
+          since March — Brazil, then California, Oregon, Washington and British
+          Columbia, and Mexico still to come — with the weeks in between spent
+          in Oregon, on the coast, or in the terminal.
         </p>
+        <p>
+          Below is roughly the last couple of years of the away-from-the-desk
+          half — mostly mountains and coastline, plus one cat who has been up
+          more of them than most cats.
+        </p>
+      </div>
+
+      <div class="away__photos">
+        <PhotoGrid photos={awayGallery} columns={4} />
       </div>
     </div>
   </section>
@@ -166,6 +179,10 @@ import { site, principles, education } from '../data/site';
     aspect-ratio: 4 / 5;
     object-fit: cover;
     border-radius: var(--radius);
+  }
+
+  .away__photos {
+    margin-block-start: var(--space-12);
   }
 
   .principles {

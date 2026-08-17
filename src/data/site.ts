@@ -29,25 +29,21 @@ export const site = {
 
   /** Appears under the hero and as the default meta description. */
   intro:
-    'Fifteen years building software — the last eight scaling high-stakes fintech infrastructure, and the last four leading the teams that built it. Currently on sabbatical in Brazil, flying cross-country and researching agentic AI systems.',
+    'Fifteen years building software — the last eight scaling high-stakes fintech infrastructure, and the last four leading the teams that built it. Currently on sabbatical, building agentic AI systems and flying cross-country competitions.',
 
-  location: 'Brazil',
+  location: 'Oregon',
 
-  /** Brasília time. Update when you are back stateside (America/Los_Angeles). */
-  timezone: 'America/Sao_Paulo',
+  timezone: 'America/Los_Angeles',
 
   /** Rendered in the hero "Currently" stat. */
   status: 'Sabbatical',
 
   /**
-   * Portrait for /about. Set to a path like '/portrait.webp' once you have a
-   * photo in public/ and the two-column layout appears automatically. While
-   * this is null the page renders as a single column — deliberately, so the
-   * live site never shows an empty placeholder box.
-   *
-   * Aim for ~1200px on the long edge, converted to .webp. See AGENTS.md.
+   * Portrait for /about. When this is null the page renders as a single
+   * column — deliberately, so the live site never shows an empty placeholder
+   * box. Cropped to 4:5, which is the ratio the portrait slot renders at.
    */
-  portrait: null as string | null,
+  portrait: '/portrait.webp' as string | null,
 
   /** Drives the amber "available" dot in the footer. Set false when not looking. */
   openToOpportunities: true,
@@ -77,15 +73,16 @@ export const site = {
    engineering and the flying halves of this site together.
    -------------------------------------------------------------------------- */
 export const currently = {
-  headline: 'On sabbatical in Brazil.',
+  headline: 'Building in Oregon, between competitions.',
   body: [
-    'Since March 2026 I have been taking a deliberate professional sabbatical — advancing cross-country paragliding with real-time data, tracking software, variometers and navigation tech, while going deep on agentic AI systems.',
-    'The two halves are more related than they look. After eight years scaling high-stakes fintech infrastructure, I am interested in AI-native systems where autonomous agents operate as a collaborative engineering team — actively enforcing precision, decoupling, and long-term quality even under aggressive velocity. The question I care about is whether rapid scaling can strengthen engineering standards rather than quietly compromise them.',
-    'Mornings are pão de queijo and Portuguese practice. Afternoons are the terminal, or 18,000 feet.',
+    'The sabbatical opened with three months in Brazil — three weeks of flying in the north, hiking the Santa Catarina coast, meeting my girlfriend’s family, and getting far enough into Portuguese to hold a simple conversation. I came back in May.',
+    'Everything since has been the deepest flying season I have had: an SIV clinic, two fly-ins, four competitions across Washington and British Columbia, and a 184 km day out of Golden that reset three personal records in a single flight. The season runs through Mexico in January.',
+    'Between trips I am based in Oregon and going deep on agentic programming — building a new application end to end with agents doing the writing and the reviewing. After eight years scaling high-stakes fintech infrastructure, the question I care about is whether autonomous agents can hold precision, decoupling, and long-term quality under aggressive velocity, rather than quietly trading them away for speed. There will be a post about the application itself.',
+    'Mornings are the terminal. Afternoons are the coast, or somewhere around 18,000 feet.',
   ],
   facts: [
     { key: 'Since', value: 'Mar 2026' },
-    { key: 'Based', value: 'Brazil' },
+    { key: 'Based', value: 'Oregon' },
     { key: 'Focus', value: 'Agentic AI · XC paragliding' },
   ],
 };
@@ -118,7 +115,7 @@ export type Employer = {
 export const employers: Employer[] = [
   {
     company: 'Independent',
-    location: 'Brazil',
+    location: 'Oregon, US · Brazil',
     start: 'Mar 2026',
     end: null,
     summary:
@@ -135,11 +132,11 @@ export const employers: Employer[] = [
           },
           {
             label: 'Cross-country flying',
-            body: 'Advancing XC paragliding with real-time data, tracking software, variometers, and navigation technology.',
+            body: 'Advancing XC paragliding with real-time data, tracking software, variometers, and navigation technology. Four competitions and two fly-ins in the 2026 season across Brazil, the western US, and British Columbia.',
           },
           {
-            label: 'Next',
-            body: 'Considering building my own product to put these ideas into practice.',
+            label: 'Building',
+            body: 'Now building a new application end to end with agentic tooling — the practical test of the ideas above, rather than another opinion about them. Writeup to come.',
           },
         ],
       },
@@ -470,6 +467,261 @@ export const pilotPlaces = {
   countries: ['US', 'BR', 'CA', 'CU', 'CO', 'FR'],
   mostFlown: 'Woodrat Mountain',
 };
+
+/* --------------------------------------------------------------------------
+   THE SEASON — rendered on /flying
+
+   The calendar, past and future. This is the honest answer to "what has he
+   been doing all year", and it is the one block on the site that goes stale on
+   a schedule: move entries from `seasonAhead` to `season2026` as they happen,
+   and drop `tentative` once a trip is booked.
+
+   Deliberately just the calendar. The narrative for an event lives in its
+   writeup in src/content/flying/, not here.
+   -------------------------------------------------------------------------- */
+export type SeasonEntry = {
+  /** Rendered as a mono label, so it is written out rather than parsed. */
+  dates: string;
+  name: string;
+  place: string;
+  kind: 'Competition' | 'Fly-in' | 'XC' | 'SIV' | 'Local' | 'Hike & fly';
+  /** Planned but not committed — renders a TBC marker. */
+  tentative?: boolean;
+};
+
+export const season2026: SeasonEntry[] = [
+  { dates: 'Mar 24 — Apr 5', name: 'Brazil season', place: 'Northern Brazil', kind: 'XC' },
+  { dates: 'May 7 — 10', name: 'SIV clinic', place: 'Lake Berryessa, CA', kind: 'SIV' },
+  { dates: 'May 16 — 17', name: 'NorCal XC League', place: 'Dunlap, CA', kind: 'Competition' },
+  { dates: 'May 18', name: 'Tollhouse', place: 'Tollhouse, CA', kind: 'XC' },
+  { dates: 'May 19', name: 'Griswold convergence', place: 'Griswold, CA', kind: 'Hike & fly' },
+  { dates: 'May 22', name: 'Whaleback', place: 'Mt Shasta, CA', kind: 'Local' },
+  { dates: 'May 23 — Jun 8', name: 'Woodrat Mountain', place: 'Ruch, OR', kind: 'XC' },
+  { dates: 'Jun 8 — 13', name: 'Rat Route 238 Fly-In', place: 'Woodrat Mountain, OR', kind: 'Fly-in' },
+  { dates: 'Jun 14 — 20', name: 'Ozone Chelan Open', place: 'Chelan, WA', kind: 'Competition' },
+  { dates: 'Jun 20 — 27', name: 'Ozone US Open', place: 'Chelan, WA', kind: 'Competition' },
+  { dates: 'Jul 3 — 8', name: 'Canadian Open', place: 'Golden, BC', kind: 'Competition' },
+  { dates: 'Jul 25 — Aug 2', name: 'Willi XC Challenge', place: 'Golden, BC', kind: 'Competition' },
+];
+
+export const seasonAhead: SeasonEntry[] = [
+  { dates: 'Aug 29 — 31', name: 'PNW SIV', place: 'Washington', kind: 'SIV' },
+  { dates: 'Sep 5 — 7', name: 'NorCal XC League', place: 'Owens Valley, CA', kind: 'Competition' },
+  { dates: 'Sep 10 — 14', name: 'Eastern Sierra Fly-In', place: 'California', kind: 'Fly-in' },
+  { dates: 'Sep 19 — 26', name: 'Red Rocks Wide Open', place: 'Utah', kind: 'Competition', tentative: true },
+  /** Sports-Class Racing Series, Advance edition — the sixth and final stop of
+      the 2026 series. Sports class only: EN-C and below, so the GTO 3 is in. */
+  { dates: 'Nov 7 — 14', name: 'SRS Advance Edition', place: 'Tapalpa, Mexico', kind: 'Competition' },
+  { dates: 'Dec 14 — 19', name: 'Club Peñón', place: 'Valle de Bravo, Mexico', kind: 'Fly-in' },
+  { dates: 'Jan 10 — 16, 2027', name: 'Monarca Open', place: 'Valle de Bravo, Mexico', kind: 'Competition' },
+];
+
+/** The gear line under the season. Both wings are two-liners. */
+export const seasonNote =
+  'On a Gin GTO 3 — size L, 6.5 aspect ratio — since demoing one at the Rat Route in June and never giving it back. A step up from the Nova Vortex at 6.1 that I flew through Brazil and the spring.';
+
+/* ==========================================================================
+   PHOTOGRAPHY
+   --------------------------------------------------------------------------
+   Every photo on the site is registered here, never inline in a page. The
+   intrinsic `width`/`height` are the real dimensions of the processed file —
+   they let the browser reserve space so nothing reflows as photos load. If you
+   replace a file, update its numbers too.
+
+   Source files were resized to <=1600px on the long edge, converted to webp
+   under 300 KB, and stripped of EXIF (the originals were geotagged). See the
+   Images section of AGENTS.md for the command.
+
+   `meta` is the mono line under the frame. Dates come from the original file
+   timestamps and are safe. Launch sites are deliberately NOT named: they were
+   not recorded with the photos and guessing one wrong is the sort of detail
+   another pilot spots immediately. Add real site names here when you have
+   them — that is the one thing these captions are missing.
+   ========================================================================== */
+export type Photo = {
+  src: string;
+  /** Describes the image for screen readers. Not the same job as `caption`. */
+  alt: string;
+  /** Short line under the frame. Omit for a photo that speaks for itself. */
+  caption?: string;
+  /** Mono metadata — a date, a comp name. Set in the same register as a label. */
+  meta?: string;
+  width: number;
+  height: number;
+};
+
+/** The three that open /flying. Portrait crops, so they sit as a triptych. */
+export const flyingLead: Photo[] = [
+  {
+    src: '/photos/flying-annecy-lake.webp',
+    alt: 'Travis under a red and blue paraglider wing, high above a turquoise alpine lake with the sun behind the wing.',
+    caption: 'High over the lake.',
+    meta: 'Jun 2024',
+    width: 900,
+    height: 1600,
+  },
+  {
+    src: '/photos/flying-cockpit.webp',
+    alt: 'View from the harness looking forward over an instrument cockpit toward a sharp forested ridge falling away to a valley and lake.',
+    caption: 'The office — cockpit, risers, and the ridge ahead.',
+    meta: 'Jun 2024',
+    width: 900,
+    height: 1600,
+  },
+  {
+    src: '/photos/flying-brazil-river.webp',
+    alt: 'Helmet-mounted selfie in flight, a wide brown river winding through green Brazilian farmland far below.',
+    caption: 'Following the river, Brazil.',
+    meta: 'Mar 2026',
+    width: 1200,
+    height: 1600,
+  },
+];
+
+/** The gallery further down /flying. */
+export const flyingGallery: Photo[] = [
+  {
+    src: '/photos/flying-annecy-wing.webp',
+    alt: 'Paraglider wing overhead seen from below, lake and mountains in the background.',
+    caption: 'Wing overhead, lake below.',
+    width: 900,
+    height: 1600,
+  },
+  {
+    src: '/photos/flying-annecy-ridge.webp',
+    alt: 'Wing inflated overhead on launch, pointing down a steep forested spine toward the valley.',
+    caption: 'Wing up, committed.',
+    meta: 'Jun 2024',
+    width: 900,
+    height: 1600,
+  },
+  {
+    src: '/photos/flying-brazil-hills.webp',
+    alt: 'Helmet and sunglasses selfie in flight over green rolling hills under a heavy overcast sky.',
+    caption: 'Flying the day the sky was not helping.',
+    meta: 'Mar 2026',
+    width: 1200,
+    height: 1600,
+  },
+  {
+    src: '/photos/flying-red-rocks.webp',
+    alt: 'In flight in a competition jersey, one hand on the brake, wing above and terrain curving away below.',
+    caption: 'Red Rocks Wide Open.',
+    meta: 'Sep 2025',
+    width: 900,
+    height: 1600,
+  },
+  {
+    src: '/photos/flying-wing-clouds.webp',
+    alt: 'Wide selfie-stick view of Travis seated in his pod harness with the wing above and cloud-covered ridges below.',
+    caption: 'Cloud street, working the ridges.',
+    width: 900,
+    height: 1600,
+  },
+  {
+    src: '/photos/flying-crew-launch.webp',
+    alt: 'A dozen pilots with packed wings on their backs posing on a dry, dusty launch under a clear sky.',
+    caption: 'Crew on launch.',
+    meta: 'May 2026',
+    width: 1600,
+    height: 1200,
+  },
+  {
+    src: '/photos/flying-crew-group.webp',
+    alt: 'A large group of pilots in matching shirts throwing their hands in the air beside packed gear.',
+    caption: 'The rest of the gaggle.',
+    meta: 'May 2026',
+    width: 1024,
+    height: 768,
+  },
+  {
+    src: '/photos/flight-analysis.webp',
+    alt: 'A flight track replayed in 3D over terrain, coloured by climb rate, with individual thermals annotated by strength.',
+    caption: 'The debrief — every thermal, annotated by climb rate.',
+    meta: 'Jun 2026',
+    /** Cropped to 4:5 at source: a screenshot should never be cropped by CSS. */
+    width: 1200,
+    height: 1500,
+  },
+];
+
+/** The pair beside the sabbatical block on the homepage. */
+export const currentlyPhotos: Photo[] = [
+  {
+    src: '/photos/flying-brazil-cloudbase.webp',
+    alt: 'Selfie under the wing beside a tall building cumulus cloud, Brazilian mountains far below.',
+    caption: 'Cumulus building.',
+    meta: 'Mar 2026',
+    width: 1200,
+    height: 1600,
+  },
+  {
+    src: '/photos/canada-lake-shore.webp',
+    alt: 'Travis standing on a rock at the edge of a still turquoise glacial lake below a wall of snow-streaked peaks.',
+    caption: 'Rest day between tasks, Golden.',
+    meta: 'Jul 2026',
+    width: 1200,
+    height: 1600,
+  },
+];
+
+/** "Away from the keyboard" on /about. */
+export const awayGallery: Photo[] = [
+  {
+    src: '/photos/canada-lake-shore.webp',
+    alt: 'Travis standing on a rock at the edge of a still turquoise glacial lake below a wall of snow-streaked peaks.',
+    caption: 'Rest day between tasks.',
+    meta: 'Jul 2026',
+    width: 1200,
+    height: 1600,
+  },
+  {
+    src: '/photos/canada-alpine-lake.webp',
+    alt: 'Travis in a down jacket standing barefoot on the shore of a partly frozen alpine lake beneath a snowfield.',
+    meta: 'Jul 2026',
+    width: 1200,
+    height: 1600,
+  },
+  {
+    src: '/photos/brazil-pier.webp',
+    alt: 'Travis leaning on a wooden railing above calm green water, jungle-covered headland and an empty beach behind.',
+    caption: 'Mornings are slower here.',
+    meta: 'Mar 2026',
+    width: 1200,
+    height: 1600,
+  },
+  {
+    src: '/photos/brazil-trail.webp',
+    alt: 'Travis crossing a rough wooden footbridge on a trail through steep green coastal hills.',
+    meta: 'Feb 2026',
+    width: 768,
+    height: 1024,
+  },
+  {
+    src: '/photos/cat-sierra.webp',
+    alt: 'A long-haired tabby cat sitting on a granite slab in a high alpine meadow, photographed from the photographer’s feet.',
+    caption: 'Also hikes.',
+    meta: 'Jun 2022',
+    width: 1024,
+    height: 1024,
+  },
+  {
+    src: '/photos/cat-upside-down.webp',
+    alt: 'Close-up of a long-haired tabby cat lying upside down on a blanket, looking straight into the camera.',
+    caption: 'The senior engineer.',
+    meta: 'Aug 2025',
+    width: 960,
+    height: 1280,
+  },
+  {
+    src: '/photos/cat-closeup.webp',
+    alt: 'Wide-angle close-up of the same cat riding in a carrier outdoors, eyes wide, whiskers flared, hills behind.',
+    caption: 'Unimpressed by the commute.',
+    meta: 'Jul 2022',
+    width: 1200,
+    height: 1600,
+  },
+];
 
 /** Competition ranking. Source: paraglidingstats.com, August 2026. */
 export const compStats = [

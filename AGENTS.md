@@ -118,10 +118,19 @@ is ever wanted, ask first.
 
 ## Current status
 
-Travis is on a professional sabbatical in Brazil as of March 2026 — agentic AI
-research and cross-country paragliding. This is reflected in `site.status`,
-`currently`, and the first entry in `employers`. If the sabbatical ends, those
-four places need updating together, along with `heroStats`.
+Travis has been on a professional sabbatical since March 2026 — agentic AI
+research and cross-country paragliding. The first three months were in Brazil;
+he returned in May 2026 and is now based in Oregon between competitions, and
+building a new application with agentic tooling. This is reflected in
+`site.status`, `site.location`, `currently`, and the first entry in `employers`.
+If the sabbatical ends, those places need updating together, along with
+`heroStats` and the third paragraph of `about.astro`.
+
+`season2026`, `seasonAhead`, and `seasonNote` in `site.ts` are the flying
+calendar rendered on `/flying`. They go stale on a schedule: move entries from
+`seasonAhead` into `season2026` as they happen, drop `tentative` once a trip is
+booked, and roll the arrays over at the end of the year. Do not put narrative in
+them — that belongs in a writeup in `src/content/flying/`.
 
 ## Images
 

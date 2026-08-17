@@ -1,0 +1,133 @@
+---
+/**
+ * A row of photographs, uniformly cropped and captioned.
+ *
+ * Every photo on the site renders through here so the frame, the caption
+ * register, and the reveal stay identical everywhere. Photos themselves come
+ * from `photos` in src/data/site.ts, never inline.
+ *
+ * Captions are prose, so they set in the sans face. The metadata line is a
+ * date or a competition name, so it sets in mono — the same role mono plays
+ * everywhere else on the site.
+ */
+import type { Photo } from '../data/site';
+
+interface Props {
+  photos: Photo[];
+  /** Columns at full width. Collapses to two, then one, on narrow screens. */
+  columns?: number;
+  /**
+   * Crop applied to every frame, so a mixed set of portrait and landscape
+   * originals still reads as one row. `native` leaves each photo alone.
+   */
+  crop?: 'portrait' | 'landscape' | 'square' | 'native';
+}
+
+const { photos, columns = 3, crop = 'portrait' } = Astro.props;
+---
+
+<ul class:list={['photos', `photos--${crop}`]} style={`--photo-columns: ${columns}`}>
+  {
+    photos.map((photo, i) => (
+      <li class="photos__item" data-reveal data-reveal-delay={i * 60}>
+        <figure class="photo">
+          <img
+            class="photo__img"
+            src={photo.src}
+            alt={photo.alt}
+            width={photo.width}
+            height={photo.height}
+            loading="lazy"
+            decoding="async"
+          />
+          {(photo.caption || photo.meta) && (
+            <figcaption class="photo__caption">
+              {photo.caption && <span class="photo__text">{photo.caption}</span>}
+              {photo.meta && <span class="photo__meta">{photo.meta}</span>}
+            </figcaption>
+          )}
+        </figure>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .photos {
+    display: grid;
+    grid-template-columns: repeat(var(--photo-columns), minmax(0, 1fr));
+    gap: var(--space-8) var(--space-6);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .photo {
+    margin: 0;
+  }
+
+  .photo__img {
+    inline-size: 100%;
+    block-size: auto;
+    border: var(--hairline) solid var(--rule);
+    border-radius: var(--radius);
+    background: var(--paper-sunken);
+  }
+
+  /* A shared crop is what makes a mixed set of originals read as one row. */
+  .photos--portrait .photo__img {
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+
+  .photos--landscape .photo__img {
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+  }
+
+  .photos--square .photo__img {
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  .photo__caption {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-1) var(--space-4);
+    margin-block-start: var(--space-3);
+  }
+
+  .photo__text {
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+    color: var(--ink-muted);
+  }
+
+  /* Dates and competition names — mono, uppercase, letterspaced, as everywhere. */
+  .photo__meta {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--ink-faint);
+    white-space: nowrap;
+  }
+
+  /* A literal integer, not min(var(--photo-columns), 2): repeat() takes an
+     <integer>, and a math function there is not reliably supported — the whole
+     declaration would be dropped and phones would keep the full column count.
+     Two is the right answer for every grid on the site anyway. */
+  @media (max-width: 52rem) {
+    .photos {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .photos {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+  }
+</style>

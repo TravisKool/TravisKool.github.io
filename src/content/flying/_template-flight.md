@@ -8,7 +8,7 @@ distance: 184
 airtime: 7.1
 maxAltitude: 3694
 conditions: 'Strong thermals, flat triangle'
-flightType: 'xc'
+kind: 'xc'
 featured: false
 draft: true
 ---
@@ -21,11 +21,17 @@ draft: true
 > on the [Flying](/flying/) index. Add `trackLog:` with an XContest or
 > vol.flights URL and a link renders at the end of the post.
 >
-> `flightType` is one of `xc`, `competition`, `local`, `hike-and-fly`, `acro`.
+> `kind` drives the mono kicker and says what sort of entry this is — one of
+> `xc`, `competition`, `fly-in`, `trip`, `siv`, `local`, `hike-and-fly`, `acro`.
+> Not everything in this collection is a single flight: a comp or fly-in wrap-up
+> covers a week and a `trip` covers months, so pick the one that tells a reader
+> what they are about to read.
+>
 > `distance` is km and `maxAltitude` is metres, matching vol.flights.
 >
-> The values above are your Jul 29 2026 Mt 7 flight — the triple-PR day. That
-> flight in particular deserves a real writeup.
+> The values above are the Jul 29 2026 Mt 7 flight — the triple-PR day. That one
+> is now written up in `mt-7-the-184.md`; the numbers stay here as a worked
+> example of what filled-in frontmatter looks like.
 
 ## Conditions
 

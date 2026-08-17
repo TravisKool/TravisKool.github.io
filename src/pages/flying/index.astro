@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import EntryRow from '../../components/EntryRow.astro';
 import SectionRule from '../../components/SectionRule.astro';
+import PhotoGrid from '../../components/PhotoGrid.astro';
 import { getFlying } from '../../lib/collections';
 import {
   competitions,
@@ -12,6 +13,11 @@ import {
   pilotAverages,
   pilotPlaces,
   bestFlight,
+  flyingLead,
+  flyingGallery,
+  season2026,
+  seasonAhead,
+  seasonNote,
 } from '../../data/site';
 
 const entries = await getFlying();
@@ -72,6 +78,18 @@ const countryNames: Record<string, string> = {
   </section>
 
   <!-- ==================================================================
+       LEAD
+       Three frames directly under the numbers, before any prose. The stats
+       say what the flying is; these say what it looks like. No section rule —
+       it reads as part of the hero, not as a section of its own.
+       ================================================================== -->
+  <section class="lead">
+    <div class="container">
+      <PhotoGrid photos={flyingLead} columns={3} />
+    </div>
+  </section>
+
+  <!-- ==================================================================
        BEST FLIGHT
        Three personal records in one day. It earns the largest block on the
        page — this is the flight a reader should remember.
@@ -105,11 +123,53 @@ const countryNames: Record<string, string> = {
   </section>
 
   <!-- ==================================================================
+       FLIGHT LOG
+       The writeups. Sits directly under the best flight rather than at the
+       foot of the page: once there are entries, they are what a reader
+       actually wants, and the stats below are the context for them.
+       ================================================================== -->
+  <section class="section">
+    <div class="container">
+      <SectionRule index="02" label="Logbook" />
+      {
+        entries.length > 0 ? (
+          <div class="index">
+            {entries.map((entry, i) => (
+              <EntryRow
+                href={`/flying/${entry.id}/`}
+                index={i + 1}
+                title={entry.data.title}
+                description={entry.data.description}
+                kicker={entry.data.kind}
+                date={entry.data.pubDate}
+                featured={entry.data.featured}
+                facts={[
+                  entry.data.site ?? '',
+                  entry.data.wing ?? '',
+                  entry.data.distance ? `${entry.data.distance} km` : '',
+                  entry.data.airtime ? `${entry.data.airtime.toFixed(1)} hrs` : '',
+                  entry.data.maxAltitude
+                    ? `${entry.data.maxAltitude.toLocaleString()} m`
+                    : '',
+                ].filter(Boolean)}
+              />
+            ))}
+          </div>
+        ) : (
+          <p class="empty">
+            Nothing written up yet — the numbers above are the log for now.
+          </p>
+        )
+      }
+    </div>
+  </section>
+
+  <!-- ==================================================================
        RECORDS
        ================================================================== -->
   <section class="section">
     <div class="container">
-      <SectionRule index="02" label="Personal bests" />
+      <SectionRule index="03" label="Personal bests" />
       <ul class="records">
         {
           pilotRecords.map((record, i) => (
@@ -135,7 +195,7 @@ const countryNames: Record<string, string> = {
        ================================================================== -->
   <section class="section">
     <div class="container">
-      <SectionRule index="03" label="A typical flight" />
+      <SectionRule index="04" label="A typical flight" />
       <dl class="averages">
         {
           pilotAverages.map((stat) => (
@@ -154,7 +214,7 @@ const countryNames: Record<string, string> = {
        ================================================================== -->
   <section class="section">
     <div class="container">
-      <SectionRule index="04" label="Places" />
+      <SectionRule index="05" label="Places" />
       <div class="places" data-reveal>
         <p class="places__lead">
           <strong>{pilotPlaces.sites} launch sites</strong> across
@@ -180,7 +240,7 @@ const countryNames: Record<string, string> = {
        ================================================================== -->
   <section class="section">
     <div class="container">
-      <SectionRule index="05" label="Competitions" />
+      <SectionRule index="06" label="Competitions" />
 
       <dl class="averages averages--tight">
         {
@@ -208,40 +268,71 @@ const countryNames: Record<string, string> = {
   </section>
 
   <!-- ==================================================================
-       FLIGHT LOG
+       THE SEASON
+       The calendar, not the narrative — the writeups above carry the stories.
+       Rendered as a dense readout so a whole year fits in one glance.
        ================================================================== -->
   <section class="section">
     <div class="container">
-      <SectionRule index="06" label="Flight log" />
-      {
-        entries.length > 0 ? (
-          <div class="index">
-            {entries.map((entry, i) => (
-              <EntryRow
-                href={`/flying/${entry.id}/`}
-                index={i + 1}
-                title={entry.data.title}
-                description={entry.data.description}
-                kicker={entry.data.wing}
-                date={entry.data.pubDate}
-                featured={entry.data.featured}
-                facts={[
-                  entry.data.site ?? '',
-                  entry.data.distance ? `${entry.data.distance} km` : '',
-                  entry.data.airtime ? `${entry.data.airtime.toFixed(1)} hrs` : '',
-                  entry.data.maxAltitude
-                    ? `${entry.data.maxAltitude.toLocaleString()} m`
-                    : '',
-                ].filter(Boolean)}
-              />
-            ))}
-          </div>
-        ) : (
-          <p class="empty">
-            No flights written up yet — the numbers above are the log for now.
-          </p>
-        )
-      }
+      <SectionRule index="07" label="The 2026 season" />
+
+      <p class="season__note measure-wide">{seasonNote}</p>
+
+      <ol class="season">
+        {
+          season2026.map((event, i) => (
+            <li class="season__row" data-reveal data-reveal-delay={i * 30}>
+              <span class="season__dates">{event.dates}</span>
+              <span class="season__event">
+                <span class="season__name">{event.name}</span>
+                <span class="season__place">{event.place}</span>
+              </span>
+              <span class="season__kind">{event.kind}</span>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       WHAT'S AHEAD
+       Same readout, forward. Tentative entries are marked rather than
+       omitted — a plan that is not booked yet is still worth showing.
+       ================================================================== -->
+  <section class="section">
+    <div class="container">
+      <SectionRule index="08" label="What's ahead" />
+
+      <ol class="season">
+        {
+          seasonAhead.map((event, i) => (
+            <li class="season__row" data-reveal data-reveal-delay={i * 30}>
+              <span class="season__dates">{event.dates}</span>
+              <span class="season__event">
+                <span class="season__name">
+                  {event.name}
+                  {event.tentative && <span class="season__tbc">TBC</span>}
+                </span>
+                <span class="season__place">{event.place}</span>
+              </span>
+              <span class="season__kind">{event.kind}</span>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       FROM THE AIR
+       The photographs that are not the lead. Four across, so the set reads
+       as a contact sheet rather than four more hero images.
+       ================================================================== -->
+  <section class="section">
+    <div class="container">
+      <SectionRule index="09" label="From the air" />
+      <PhotoGrid photos={flyingGallery} columns={4} />
     </div>
   </section>
 </Base>
@@ -262,6 +353,13 @@ const countryNames: Record<string, string> = {
     font-size: var(--text-lg);
     line-height: var(--leading-prose);
     color: var(--ink-muted);
+  }
+
+  /* ---- Lead ------------------------------------------------------------
+     Sits tighter to the hero than a full section would, so the photographs
+     still belong to the opening rather than starting a new beat. */
+  .lead {
+    padding-block-end: var(--section-gap);
   }
 
   /* ---- Career totals -------------------------------------------------- */
@@ -532,6 +630,77 @@ const countryNames: Record<string, string> = {
     white-space: nowrap;
   }
 
+  /* ---- The season ------------------------------------------------------
+     Three columns — when, what, and what kind of week it was. The same
+     register as the competition list above, but aligned as real columns so a
+     whole year scans down the page in one pass. */
+  .season__note {
+    margin-block-end: var(--space-12);
+    color: var(--ink-muted);
+    line-height: var(--leading-prose);
+  }
+
+  .season {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .season__row {
+    display: grid;
+    grid-template-columns: 11rem 1fr auto;
+    gap: var(--space-6);
+    align-items: baseline;
+    padding-block: var(--space-4);
+    border-block-end: var(--hairline) solid var(--rule);
+  }
+
+  .season__row:first-child {
+    border-block-start: var(--hairline) solid var(--rule);
+  }
+
+  .season__dates,
+  .season__kind {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--ink-faint);
+    white-space: nowrap;
+  }
+
+  .season__event {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-1) var(--space-4);
+  }
+
+  .season__name {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .season__place {
+    font-size: var(--text-sm);
+    color: var(--ink-muted);
+  }
+
+  /* Planned, not booked. Deliberately not the amber signal — that means
+     "live / current / available", and a maybe-trip is none of those. */
+  .season__tbc {
+    margin-inline-start: var(--space-2);
+    padding: 0.1em 0.4em;
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    color: var(--ink-faint);
+    border: var(--hairline) solid var(--rule);
+    border-radius: var(--radius);
+  }
+
   .empty {
     font-family: var(--font-mono);
     font-size: var(--text-sm);
@@ -546,6 +715,17 @@ const countryNames: Record<string, string> = {
 
     .comp__line {
       display: none;
+    }
+
+    /* The date leads its own line, then the event and its kind sit together
+       underneath — the column grid does not survive a phone. */
+    .season__row {
+      grid-template-columns: 1fr auto;
+      gap: var(--space-2) var(--space-4);
+    }
+
+    .season__dates {
+      grid-column: 1 / -1;
     }
   }
 </style>
