@@ -84,7 +84,7 @@ export const currently = {
   body: [
     'This started as a sabbatical, and it opened with three months in Brazil — three weeks of flying in the north, hiking the Santa Catarina coast, and getting far enough into Portuguese to hold a simple conversation. I came back in May.',
     'Everything since has been the deepest flying season I have had: an SIV clinic, two fly-ins, four competitions across Washington and British Columbia, and a 184 km day out of Golden that reset three personal records in a single flight. The season runs through Mexico in January.',
-    'Between trips I am based in Nevada and going deep on agentic programming — building a new application end to end with agents doing the writing and the reviewing. After eight years scaling high-stakes fintech infrastructure, the question I care about is whether autonomous agents can hold precision, decoupling, and long-term quality under aggressive velocity, rather than quietly trading them away for speed. There will be a post about the application itself.',
+    'Between trips I am based in Nevada and going deep on agentic programming — building a new application end to end with agents doing the writing and the reviewing. At Retired.com I watched AI take over the writing of code and SQL while contracts, contract review, and PR review stayed stubbornly human. That is the part I care about now: whether autonomous agents can hold precision, decoupling, and long-term quality there under real velocity, rather than quietly trading them away for speed. There will be a post about the application itself.',
     'Mornings are the terminal. Afternoons are outside, or somewhere around 18,000 feet.',
   ],
   facts: [
@@ -156,7 +156,7 @@ export const employers: Employer[] = [
     start: 'May 2018',
     end: 'Mar 2026',
     summary:
-      'Seven years and eleven months across three roles, from founding C# engineer to the platform’s primary architectural decision-maker.',
+      'Seven years and eleven months across three roles, from founding C# engineer to backend architecture lead.',
     positions: [
       {
         title: 'Software Engineering Manager · Backend Architecture Lead',
@@ -166,19 +166,27 @@ export const employers: Employer[] = [
         highlights: [
           {
             label: 'Engineering leadership',
-            body: 'Primary architectural decision-maker across the Retired.com ecosystem, bridging high-level strategy with technical execution.',
+            body: 'One of four architects and technical leads on the architecture review board, owning backend architecture across the teams I managed — guiding engineers through their service contracts, refining them, and presenting them for final review.',
           },
           {
-            label: 'M&A integration',
-            body: 'Led the backend engineering teams through the technical acquisition and integration of Choice (Kingdom Trust), Rocket Dollar, and Shrimpy — overseeing platform migrations and cross-team alignment.',
+            label: 'Instant Settlement',
+            body: 'The largest project of this role. Delivered an in-house double-entry accounting ledger as the platform’s source of truth for balances, demoted the external ledger to an isolated downstream backup, and refactored the surrounding systems and operational workflows onto it.',
           },
           {
-            label: 'High-stakes fintech delivery',
-            body: 'Led the teams that engineered the Instant Settlement Engine — a double-entry ledger — and the custom compliance platform for real-time account locking and fraud prevention.',
+            label: 'Limit order trading',
+            body: 'Led the team that brought limit orders to the trading platform.',
           },
           {
-            label: 'AI-first transformation',
-            body: 'Spearheaded the move to AI-augmented development, integrating the company’s first AI-powered PR reviewer and automated acceptance tests to hold quality during high-velocity cycles.',
+            label: 'Compliance platform',
+            body: 'Led the teams behind the custom compliance platform for real-time account locking and fraud prevention.',
+          },
+          {
+            label: 'Acquisition onboarding',
+            body: 'Absorbed the acquired Choice (Kingdom Trust), Rocket Dollar, and Shrimpy platforms into the teams’ scope, setting architectural direction and standards for the consolidation.',
+          },
+          {
+            label: 'AI-first delivery',
+            body: 'Led the teams through the company’s AI-first shift, with agents writing code and SQL across the development cycle behind AI linters and reviewers — holding architectural integrity with automated acceptance tests as generation outpaced human review.',
           },
           {
             label: 'Operations',
@@ -194,7 +202,7 @@ export const employers: Employer[] = [
         highlights: [
           {
             label: 'Leadership transition',
-            body: 'Guided decision-making and architectural solution design for a team of senior engineers while remaining hands-on with code the majority of the time.',
+            body: 'Eased into architectural leadership — contributing solution designs and recommendations in architecture review for a team of senior engineers, while remaining hands-on with code the majority of the time.',
           },
           {
             label: 'Quality gatekeeper',
@@ -210,7 +218,7 @@ export const employers: Employer[] = [
         highlights: [
           {
             label: 'Founding C# engineer, Bitcoin IRA',
-            body: 'Hired as the first C# engineer and a core contributor building the digital asset trading platform and its core APIs.',
+            body: 'Hired as the first C# engineer on the platform, joining behind the solutions architect as a major code contributor across the digital asset trading platform, its core APIs, and the trading engines.',
           },
           {
             label: 'Architectural foundations',
@@ -367,7 +375,7 @@ export const milestones = {
    PROVENANCE: written from Travis's own stated positions (Aug 2026), built on
    the four bracketed pillars in his GitHub bio. "A drive to automate" has
    evolved into "AI-first teams" — the same instinct, matured, and grounded in
-   having shipped the first AI-powered PR reviewer at Retired.com.
+   having led teams through an AI-first delivery shift at Retired.com.
    -------------------------------------------------------------------------- */
 export const principles = [
   {
