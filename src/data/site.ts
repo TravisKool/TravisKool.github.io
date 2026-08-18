@@ -179,7 +179,7 @@ export const employers: Employer[] = [
           },
           {
             label: 'Instant Settlement',
-            body: 'The largest project of this role. Delivered an in-house double-entry accounting ledger as the platform’s source of truth for balances, demoted the external ledger to an isolated downstream backup, and refactored the surrounding systems and operational workflows onto it.',
+            body: 'The largest project of this role. Delivered an in-house double-entry accounting ledger as the platform’s source of truth for balances, demoted the external ledger to an isolated downstream backup, and refactored the surrounding systems and operational workflows onto it. Moving those operations onto asynchronous, decoupled messaging over the platform’s existing Azure Service Bus — with steady tuning alongside it — contributed to trading error rates dropping below 1%.',
           },
           {
             label: 'Limit order trading',
@@ -200,10 +200,6 @@ export const employers: Employer[] = [
           {
             label: 'Team',
             body: 'Six engineers reporting to me, working alongside two QA engineers, a product manager, and a project manager.',
-          },
-          {
-            label: 'System reliability',
-            body: 'Decoupled platform-wide dependencies onto event-driven architecture with Azure Service Bus, contributing to a drop in trading error rates to below 1%.',
           },
           {
             label: 'Cross-functional decisions',
