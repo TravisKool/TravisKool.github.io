@@ -73,12 +73,22 @@ nostalgia. SQLite in particular — one file, no server — matches a
 record-keeping product whose write rate is human-scale, and it keeps both
 production and every test fixture honest by running the same engine.
 
-The architecture is a strict volatility-based decomposition: exactly three
-Manager pillars (identity, stewardship, and the site record), Engines for
-business rules, Access and DataAccess as leaf layers, a unidirectional call
-graph, all machine-enforced by an architecture test fixture. Sixty-two
-projects, and the layering has held under multi-agent concurrency —
-[that story is its own essay](/writing/guardrails-over-review/).
+The architecture is **iDesign** — volatility-based decomposition, applied
+strictly. Each layer has a hard definition of what it contains: Managers
+orchestrate workflows and nothing else; Engines hold the business and
+algorithmic logic; Access projects make external API calls only; DataAccess
+projects hold database connections only; the two leaves may call nothing at
+all, and the graph runs strictly downward. The solution's 62 projects follow
+that shape exactly — **3 Manager pillars** (identity, stewardship, and the
+site record), **11 Engines**, **3 Access**, **11 DataAccess** (one per entity
+group — more leaf projects than Managers is the expected shape, since reuse
+lives at the bottom of the pyramid), one shared Contract library of enums and
+value types, one UI host, and **32 test projects — one per production
+project**, because the coverage bar is 100% and a project without its own test
+project has nowhere to keep its proof. Every boundary crossing goes through a
+`Contract/` interface, and all of it is machine-enforced by an architecture
+test fixture, which is why the layering has held under multi-agent
+concurrency — [that story is its own essay](/writing/guardrails-over-review/).
 
 ## The domain has ethics, and they are in the schema
 
@@ -117,6 +127,27 @@ distinct agent sessions have landed work on `main`. The roadmap tracks 84
 items across five tiers, with about 38 shipped. On the peak day, six
 concurrent agents landed 165 commits and roughly 52,000 added lines — while
 the coverage gates held.
+
+The repository also holds a controlled experiment I did not plan: the same
+person, the same product, built with 2025 tooling and then with 2026 tooling.
+
+| | 2025 scaffold era | Claude Code era |
+| --- | --- | --- |
+| Span | Oct 22 – Nov 28, 2025 (~5½ weeks) | Aug 12 – 18, 2026 (7 days) |
+| Commits | 39 | 240 |
+| Lines added | ~54,000 | ~210,000 |
+| Projects | 26 | 62 |
+| Test methods | 474 | ~3,600 |
+| Coverage bar | aspirational | 100%, gated, both sides |
+
+One week against five and a half: six times the commits, four times the line
+churn, the test suite up nearly eightfold — and the quality bar went *up* over
+the same interval, from an aspiration to a hard gate, while the product
+pivoted, grew three architectural pillars, and got rebranded. The peak single
+day of 2026 out-produced the entire 2025 era on commits. Raw volume is the
+least interesting measure of software, which is exactly why I list it last —
+everything above it in this post is about the discipline that made the volume
+safe to accept.
 
 I keep those numbers honest the same way the repo keeps everything else
 honest: they are re-derived from the repository, on a date, in a stats file

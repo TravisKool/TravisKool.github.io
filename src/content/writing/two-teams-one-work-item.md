@@ -54,9 +54,9 @@ an engineer, features assigned to a lead. Assignment was the claim.
 
 ## What went well
 
-Both teams built to the same spec, because the spec — the architecture rules,
-the naming conventions, the layering tests — lives in the repository rather
-than in anyone's head. That made reconciliation mostly *choosing* rather than
+Both teams built to the same spec, because the spec — the iDesign layering
+rules and their enforcing tests, the naming conventions, the 100% coverage
+gate — lives in the repository rather than in anyone's head. That made reconciliation mostly *choosing* rather than
 untangling. And the failure mode was legible immediately: I recognized it from
 human teams the moment I saw it, which meant the fix was obvious too.
 

@@ -1,6 +1,6 @@
 ---
 title: Guardrails I trust more than my own review
-description: How three architectural pillars, eleven shell hooks, and a 955-line spec let me stop reviewing every change an agent team makes — without trading away the quality bar.
+description: How iDesign pillars, eleven shell hooks, a gated 100% coverage bar, and a 955-line spec let me stop reviewing every change an agent team makes — without lowering the quality bar.
 pubDate: 2026-08-17T09:00:00
 kind: essay
 tags: ['agents', 'architecture', 'process', 'testing']
@@ -22,10 +22,27 @@ multiple agent teams working it concurrently.
 
 ## Pillars, not services
 
-The architecture is a volatility-based decomposition in the iDesign style:
-Manager, Engine, Access, and DataAccess layers, each in its own project, with a
-strictly unidirectional call graph. A layer may call down; never sideways to a
-peer, never up.
+The architecture is **iDesign** — Juval Löwy's volatility-based decomposition,
+the method I have used on human teams — applied without softening. Every layer
+lives in its own project, and each layer is defined by what it is allowed to
+contain, not just what it is allowed to call:
+
+| Layer | Contains | May call |
+| --- | --- | --- |
+| **Manager** | Workflow orchestration only | Engine, Access, DataAccess, Proxy |
+| **Engine** | Business and algorithmic logic | Access, DataAccess |
+| **Access** | External API calls **only** — no DB connections | nothing (leaf) |
+| **DataAccess** | DB connections **only** — no external API calls | nothing (leaf) |
+| **Proxy** | The one permitted Manager-to-Manager bridge | its one target Manager |
+
+The call graph is strictly unidirectional — down, never sideways to a peer,
+never up — and a Manager never calls another Manager directly, even inside the
+same assembly. Each project exposes exactly one `Contract/` folder, and that
+folder may hold only two things: the interfaces other layers use to call in,
+and the DTOs those interface signatures use. Everything else lives beside its
+consumer. Callers depend on contracts, never on concrete classes — which is
+what makes any layer swappable, and what makes an agent's diff reviewable by
+its imports alone.
 
 The load-bearing decision sits at the top. A Manager is a *pillar of the
 application*, not a table with a service in front of it — and there are exactly
@@ -58,10 +75,28 @@ that violates the layering. Reading the graph from disk matters twice: it
 covers every project, including ones the test project does not reference, and
 it catches a reference that has been *declared but not yet used*. That is
 precisely the state a half-finished shortcut is in, and exactly what the
-compiler drops from assembly metadata. The same fixture enforces the naming
-conventions — no `Async` suffixes, no `Dto` suffixes, contract methods that
-name their lookup argument — by reflecting over every contract interface and
-naming the offending member when it fails.
+compiler drops from assembly metadata. The same fixture enforces the contract
+naming conventions by reflecting over every `Contract/` interface and naming
+the offending member when it fails:
+
+- **Never append `Async`** to a method name — every contract method returns
+  `Task`, so the suffix is noise repeated a thousand times.
+- **Never append `Dto`, `Result`, or `Response`** — a DTO is named for the
+  thing it is (`OrderConfirmation`, not `PlaceOrderResultDto`).
+- **Bake the lookup argument into the method name.** A method taking an opaque
+  handle says so: `GetDestinationByKey(string key)`, never
+  `GetDestination(string key)`; a method taking two handles names both, in
+  parameter order. The test for whether a name is complete is whether the
+  contract needs a comment restating the signature — a comment that does is
+  the signature admitting it is incomplete.
+- **Name injected fields for the full interface they hold** — `IListingEngine`
+  goes in `_listingEngine`, never `_engine`, because a Manager is precisely
+  where six same-shaped dependencies sit side by side, two hundred lines from
+  the constructor that would disambiguate them.
+
+Naming rules sound like nitpicking until you have agents generating call sites
+by the hundred. Then they become the difference between a diff you can read
+and one you have to interrogate.
 
 **Eleven shell hooks** run at the seams of every agent session. A session-start
 hook sets git identity. A pre-command guard blocks the genuinely dangerous
@@ -79,6 +114,35 @@ generation silently did nothing, because they parsed their input with `jq` and
 `jq` was not installed in the agent environment. Nothing failed; the guardrails
 just weren't there. The current versions parse with Python and are tested. A
 guardrail you have not watched fire is a guess.
+
+## 100% coverage, as a gate rather than a goal
+
+The coverage requirement deserves its own section, because it is the guardrail
+people push back on hardest: **100% line coverage, on both the backend and the
+UI component suite, enforced as a hard gate.** Not a target, not a ratchet — a
+session that leaves one new uncovered line does not get to finish. The test
+lands with the code or the code does not land.
+
+On a human team I would never set that bar; the marginal test costs real
+engineer-hours and 85% buys most of the value. With agents the economics
+invert. The marginal test is nearly free to write, and the coverage gate turns
+out to be less about verifying behavior than about *forcing every line to
+justify itself*. When a line looks impossible to cover, it almost always turns
+out to be genuinely unreachable — and the right fix is deleting it, not
+papering over it. Several dead guards and one entire dead method came out of
+the codebase exactly that way. Dead code is where an unsupervised generator's
+mistakes go to hide; a 100% gate leaves them nowhere to sit.
+
+The exclusions are as disciplined as the rule: declared once, in one settings
+file, applied to every test run automatically. Scaffolded migrations (tool
+output, and the schema they build is covered by tests against a real
+database), design-time factories reached only by tooling, and the composition
+root — whose logic was extracted into a startup folder precisely so it *could*
+be covered. Nothing else. And the suite behind the gate is real: 3,057 backend
+and 1,173 UI component tests at the last measurement, up from 474 tests at the
+end of the 2025 scaffold era — the bar went from aspiration to gate in the
+same week the team became mostly agents, and it was the agents that made the
+bar affordable.
 
 ## The spec that outranks the code
 

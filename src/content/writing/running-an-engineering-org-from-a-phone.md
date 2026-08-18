@@ -105,7 +105,9 @@ except the role keeps expanding sideways. In one day I am the engineering
 manager setting the round, the architect ruling on a boundary, the product
 manager cutting scope, the CTO deciding what the platform even is. On the peak
 day so far, the teams landed 165 commits and about fifty thousand lines behind
-those decisions.
+those decisions — more commits in that one day than the project's entire 2025
+era produced in five and a half weeks, with the coverage gate at 100% the
+whole time.
 
 I used to manage engineers at a fintech and the texture is strikingly similar:
 the work is decomposition, review policy, unblocking, and judgment. What has
