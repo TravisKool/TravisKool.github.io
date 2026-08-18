@@ -198,6 +198,10 @@ export const employers: Employer[] = [
             body: 'Led the teams through the company’s AI-first shift, with agents writing code and SQL across the development cycle behind AI linters and reviewers — holding architectural integrity with automated acceptance tests as generation outpaced human review.',
           },
           {
+            label: 'System reliability',
+            body: 'Decoupled platform-wide dependencies onto event-driven architecture with Azure Service Bus, contributing to a drop in trading error rates to below 1%.',
+          },
+          {
             label: 'Cross-functional decisions',
             body: 'Worked with product, UX, executives, and other departments to shape decisions on in-flight and upcoming projects — translating between business intent and what the backend could carry.',
           },
