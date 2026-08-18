@@ -198,8 +198,12 @@ export const employers: Employer[] = [
             body: 'Led the teams through the company’s AI-first shift, with agents writing code and SQL across the development cycle behind AI linters and reviewers — holding architectural integrity with automated acceptance tests as generation outpaced human review.',
           },
           {
+            label: 'Cross-functional decisions',
+            body: 'Worked with product, UX, executives, and other departments to shape decisions on in-flight and upcoming projects — translating between business intent and what the backend could carry.',
+          },
+          {
             label: 'Operations',
-            body: 'Owned end-to-end people operations, production release cycles, and critical production support for the unified ecosystem.',
+            body: 'Owned end-to-end people operations, production releases, and critical production support for the unified ecosystem — and stayed in the pull request review rotation throughout.',
           },
         ],
       },
