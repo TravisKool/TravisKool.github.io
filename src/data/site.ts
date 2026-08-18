@@ -93,7 +93,7 @@ export const currently = {
   body: [
     'This started as a sabbatical, and it opened with three months in Brazil — three weeks of flying in the north, hiking the Santa Catarina coast, and getting far enough into Portuguese to hold a simple conversation. I came back in May.',
     'Everything since has been the deepest flying season I have had: an SIV clinic, two fly-ins, four competitions across Washington and British Columbia, and a 184 km day out of Golden that reset three personal records in a single flight. The season runs through Mexico in January.',
-    'Between trips I am based in Nevada and going deep on agentic programming — building a new application end to end with agents doing the writing and the reviewing. At Retired.com I watched AI take over the writing of code and SQL while contracts, contract review, and PR review stayed stubbornly human. That is the part I care about now: whether autonomous agents can hold precision, decoupling, and long-term quality there under real velocity, rather than quietly trading them away for speed. There will be a post about the application itself.',
+    'Between trips I am based in Nevada and going deep on agentic programming — building a new application end to end with agents doing the writing and the reviewing. At Retired.com I watched AI take over the writing of code and SQL while contracts, contract review, and PR review stayed stubbornly human. That is the part I care about now: whether autonomous agents can hold precision, decoupling, and long-term quality there under real velocity, rather than quietly trading them away for speed. The writeup now exists — a six-part series in Writing, starting with the application itself.',
     'Mornings are the terminal. Afternoons are outside, or somewhere around 18,000 feet.',
   ],
   facts: [
@@ -152,7 +152,7 @@ export const employers: Employer[] = [
           },
           {
             label: 'Building',
-            body: 'Now building a new application end to end with agentic tooling — the practical test of the ideas above, rather than another opinion about them. Writeup to come.',
+            body: 'Now building a new application end to end with agentic tooling — the practical test of the ideas above, rather than another opinion about them. Written up in the six-part series in Writing.',
           },
         ],
       },
