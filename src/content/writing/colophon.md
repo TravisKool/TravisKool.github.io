@@ -28,8 +28,9 @@ The code is the same story. Agents wrote it. I set the constraints, directed the
 content and the design, reviewed what came back, and decided what was allowed to
 ship.
 
-That is not a disclaimer, it is the subject. After eight years leading backend
-teams I am spending this year on whether agents can build systems that hold
+That is not a disclaimer, it is the subject. After fifteen years building
+backend systems — the last four leading the teams that built them, eight of
+them at a fintech — I am spending this year on whether agents can build systems that hold
 up — precision, decoupling, and quality under real velocity rather than traded
 away for it. A site is a small instance of that question, with the useful
 property that anyone can open the repository and judge the answer.
