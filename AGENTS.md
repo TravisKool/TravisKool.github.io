@@ -118,13 +118,22 @@ is ever wanted, ask first.
 
 ## Current status
 
-Travis has been on a professional sabbatical since March 2026 — agentic AI
-research and cross-country paragliding. The first three months were in Brazil;
-he returned in May 2026 and is now based in Oregon between competitions, and
-building a new application with agentic tooling. This is reflected in
-`site.status`, `site.location`, `currently`, and the first entry in `employers`.
-If the sabbatical ends, those places need updating together, along with
-`heroStats` and the third paragraph of `about.astro`.
+Travis has been working independently since March 2026 — agentic AI research and
+cross-country paragliding. It began as a professional sabbatical; the first three
+months were in Brazil, he returned in May 2026, and he is now based in Oregon
+between competitions and building a new application with agentic tooling.
+
+`site.status` reads **Independent**, not "Sabbatical", on purpose — a sabbatical
+is a break you return from, which frames the period as a gap rather than as work.
+Promote it to a founder or company label only once the application is public and
+something a stranger can click; until then that would be the least-evidenced
+claim on the site sitting in the most prominent slot. Note that a public
+self-employed label can also interact with unemployment eligibility — check
+before changing it, not after.
+
+Status lives in `site.status`, `site.location`, `currently`, and the first entry
+in `employers`. Those move together, along with `heroStats` and the third
+paragraph of `about.astro`.
 
 `season2026`, `seasonAhead`, and `seasonNote` in `site.ts` are the flying
 calendar rendered on `/flying`. They go stale on a schedule: move entries from

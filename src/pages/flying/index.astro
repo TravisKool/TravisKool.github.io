@@ -18,6 +18,7 @@ import {
   season2026,
   seasonAhead,
   seasonNote,
+  seasonAheadNote,
 } from '../../data/site';
 
 const entries = await getFlying();
@@ -303,6 +304,8 @@ const countryNames: Record<string, string> = {
   <section class="section">
     <div class="container">
       <SectionRule index="08" label="What's ahead" />
+
+      <p class="season__note measure-wide">{seasonAheadNote}</p>
 
       <ol class="season">
         {

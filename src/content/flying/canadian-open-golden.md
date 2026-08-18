@@ -21,10 +21,11 @@ It also flies differently from anywhere else I have competed. There is one long
 range, and you run up and down it. Because it is a single continuous range, you
 generally do not need to climb very high to keep going — so you do not.
 
-I want to be honest that this is not the safest mode of travel. Staying low is a
-choice with fewer options in it. But it was what was needed to keep up with the
-pilots I was flying against, and pretending otherwise would be dishonest about
-how the week actually went.
+Running a range low leaves you fewer options than climbing would, and it was the
+part of the week I thought hardest about. It is also simply how that terrain
+works — the range is the lift, and the pilots who know it best are the ones using
+it that way. I flew it the way the valley asks to be flown, with my own line on
+where I would stop doing that.
 
 ## The company
 

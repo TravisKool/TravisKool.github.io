@@ -40,4 +40,5 @@ const ogImage = new URL('/og.png', Astro.site ?? site.url).href;
 
 {publishedTime && <meta property="article:published_time" content={publishedTime.toISOString()} />}
 
-<link rel="alternate" type="application/rss+xml" title={`${site.name} — Writing`} href="/rss.xml" />
+<!-- The feed deliberately combines both collections, so it is not "Writing". -->
+<link rel="alternate" type="application/rss+xml" title={`${site.name} — Writing & Flying`} href="/rss.xml" />

@@ -29,14 +29,21 @@ export const site = {
 
   /** Appears under the hero and as the default meta description. */
   intro:
-    'Fifteen years building software — the last eight scaling high-stakes fintech infrastructure, and the last four leading the teams that built it. Currently on sabbatical, building agentic AI systems and flying cross-country competitions.',
+    'Fifteen years building software — the last eight scaling high-stakes fintech infrastructure, and the last four leading the teams that built it. Now working independently: building agentic AI systems, and flying cross-country competitions.',
 
   location: 'Oregon',
 
   timezone: 'America/Los_Angeles',
 
-  /** Rendered in the hero "Currently" stat. */
-  status: 'Sabbatical',
+  /**
+   * Rendered in the hero "Currently" stat.
+   *
+   * Deliberately "Independent" rather than "Sabbatical": a sabbatical is a
+   * break you return from, which frames this period as a gap rather than as
+   * work. Promote to a founder/company label only when there is something
+   * public to point at.
+   */
+  status: 'Independent',
 
   /**
    * Portrait for /about. When this is null the page renders as a single
@@ -75,7 +82,7 @@ export const site = {
 export const currently = {
   headline: 'Building in Oregon, between competitions.',
   body: [
-    'The sabbatical opened with three months in Brazil — three weeks of flying in the north, hiking the Santa Catarina coast, meeting my girlfriend’s family, and getting far enough into Portuguese to hold a simple conversation. I came back in May.',
+    'This started as a sabbatical, and it opened with three months in Brazil — three weeks of flying in the north, hiking the Santa Catarina coast, and getting far enough into Portuguese to hold a simple conversation. I came back in May.',
     'Everything since has been the deepest flying season I have had: an SIV clinic, two fly-ins, four competitions across Washington and British Columbia, and a 184 km day out of Golden that reset three personal records in a single flight. The season runs through Mexico in January.',
     'Between trips I am based in Oregon and going deep on agentic programming — building a new application end to end with agents doing the writing and the reviewing. After eight years scaling high-stakes fintech infrastructure, the question I care about is whether autonomous agents can hold precision, decoupling, and long-term quality under aggressive velocity, rather than quietly trading them away for speed. There will be a post about the application itself.',
     'Mornings are the terminal. Afternoons are the coast, or somewhere around 18,000 feet.',
@@ -119,10 +126,10 @@ export const employers: Employer[] = [
     start: 'Mar 2026',
     end: null,
     summary:
-      'Professional sabbatical — aviation and agentic AI research.',
+      'Independent — agentic AI research, building a new application, and competition paragliding. Began as a professional sabbatical in March 2026.',
     positions: [
       {
-        title: 'Professional Sabbatical · Aviation & Agentic AI Research',
+        title: 'Agentic AI Research & Building',
         start: 'Mar 2026',
         end: null,
         highlights: [
@@ -515,6 +522,16 @@ export const seasonAhead: SeasonEntry[] = [
   { dates: 'Dec 14 — 19', name: 'Club Peñón', place: 'Valle de Bravo, Mexico', kind: 'Fly-in' },
   { dates: 'Jan 10 — 16, 2027', name: 'Monarca Open', place: 'Valle de Bravo, Mexico', kind: 'Competition' },
 ];
+
+/**
+ * Sits under the "What's ahead" rule.
+ *
+ * Deliberate: a list of seven booked trips running to January reads as "not
+ * available until then", which is not what the calendar means and not a signal
+ * worth sending on a site people may read professionally. Plans flex.
+ */
+export const seasonAheadNote =
+  'Plans rather than commitments. The flying calendar has always moved when there was something worth moving it for.';
 
 /** The gear line under the season. Both wings are two-liners. */
 export const seasonNote =

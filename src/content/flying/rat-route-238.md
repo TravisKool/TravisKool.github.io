@@ -1,6 +1,6 @@
 ---
-title: 'The Rat Route, and the wing I did not give back'
-description: 'Up to 120 pilots at Woodrat for the annual Rat Route 238 Fly-In — twice-a-day flying, weather talks, live music, and a demo wing that never made it back to the vendor.'
+title: 'The Rat Route, and the wing I went home with'
+description: 'Up to 120 pilots at Woodrat for the annual Rat Route 238 Fly-In — twice-a-day flying, weather talks, live music, and a demo wing I liked enough to buy before the week was out.'
 pubDate: 2026-06-13
 wing: 'Gin GTO 3'
 site: 'Woodrat Mountain, OR'
@@ -28,7 +28,7 @@ I demoed a Gin GTO 3 in size L. It runs a 6.5 aspect ratio against the 6.1 on
 the Nova Vortex I had been flying — both two-liners, so it is a step up rather
 than a change of category, but it is a real step.
 
-It was immediately obvious that I was not going to want to hand it back. So I
-did not. I kept it and took it straight to Chelan for the Ozone competitions,
-which is not the most conservative way to introduce yourself to a new wing, and
-turned out to be the right call.
+It was immediately obvious that I was not going to want to hand it back, so I
+bought it before the week was out. It went straight to Chelan for the Ozone
+competitions, which is not the most conservative way to introduce yourself to a
+new wing, and turned out to be the right call.
