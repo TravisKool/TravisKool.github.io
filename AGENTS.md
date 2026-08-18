@@ -120,7 +120,7 @@ is ever wanted, ask first.
 
 Travis has been working independently since March 2026 — agentic AI research and
 cross-country paragliding. It began as a professional sabbatical; the first three
-months were in Brazil, he returned in May 2026, and he is now based in Oregon
+months were in Brazil, he returned in May 2026, and he is now based in Nevada
 between competitions and building a new application with agentic tooling.
 
 `site.status` reads **Independent**, not "Sabbatical", on purpose — a sabbatical

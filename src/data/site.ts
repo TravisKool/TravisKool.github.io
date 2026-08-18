@@ -31,7 +31,7 @@ export const site = {
   intro:
     'Fifteen years building software — the last eight scaling high-stakes fintech infrastructure, and the last four leading the teams that built it. Now working independently: building agentic AI systems, and flying cross-country competitions.',
 
-  location: 'Oregon',
+  location: 'Nevada',
 
   timezone: 'America/Los_Angeles',
 
@@ -80,16 +80,16 @@ export const site = {
    engineering and the flying halves of this site together.
    -------------------------------------------------------------------------- */
 export const currently = {
-  headline: 'Building in Oregon, between competitions.',
+  headline: 'Building in Nevada, between competitions.',
   body: [
     'This started as a sabbatical, and it opened with three months in Brazil — three weeks of flying in the north, hiking the Santa Catarina coast, and getting far enough into Portuguese to hold a simple conversation. I came back in May.',
     'Everything since has been the deepest flying season I have had: an SIV clinic, two fly-ins, four competitions across Washington and British Columbia, and a 184 km day out of Golden that reset three personal records in a single flight. The season runs through Mexico in January.',
-    'Between trips I am based in Oregon and going deep on agentic programming — building a new application end to end with agents doing the writing and the reviewing. After eight years scaling high-stakes fintech infrastructure, the question I care about is whether autonomous agents can hold precision, decoupling, and long-term quality under aggressive velocity, rather than quietly trading them away for speed. There will be a post about the application itself.',
-    'Mornings are the terminal. Afternoons are the coast, or somewhere around 18,000 feet.',
+    'Between trips I am based in Nevada and going deep on agentic programming — building a new application end to end with agents doing the writing and the reviewing. After eight years scaling high-stakes fintech infrastructure, the question I care about is whether autonomous agents can hold precision, decoupling, and long-term quality under aggressive velocity, rather than quietly trading them away for speed. There will be a post about the application itself.',
+    'Mornings are the terminal. Afternoons are outside, or somewhere around 18,000 feet.',
   ],
   facts: [
     { key: 'Since', value: 'Mar 2026' },
-    { key: 'Based', value: 'Oregon' },
+    { key: 'Based', value: 'Nevada' },
     { key: 'Focus', value: 'Agentic AI · XC paragliding' },
   ],
 };
@@ -122,7 +122,7 @@ export type Employer = {
 export const employers: Employer[] = [
   {
     company: 'Independent',
-    location: 'Oregon, US · Brazil',
+    location: 'Nevada, US · Brazil',
     start: 'Mar 2026',
     end: null,
     summary:
