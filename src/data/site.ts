@@ -405,7 +405,7 @@ export const principles = [
   },
   {
     title: 'Decoupled, testable design',
-    body: 'If it is hard to test, that is the design telling you something. Testability is also what makes velocity safe: automated verification is the only thing that scales as fast as generation does.',
+    body: 'If it is hard to test, that is the design telling you something. Testability is also what makes velocity safe: automated verification is the one kind of review whose cost per change does not rise with volume, so it carries conformance and leaves human attention for the judgment no check can encode.',
   },
   {
     title: 'AI-first teams',

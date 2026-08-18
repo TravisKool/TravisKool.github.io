@@ -79,8 +79,11 @@ const writing = defineCollection({
 
 This is the same instinct that makes me reach for a compiler in application
 code. If a mistake can be caught mechanically, it should be — and that matters
-more, not less, when an agent is doing the typing. Mechanical checks are the
-part of review that scales at the speed generation does.
+more, not less, when an agent is doing the typing. A mechanical check is the
+only kind of review whose cost per change does not rise with volume, so it
+should carry as much of the conformance work as it can be taught to. What it
+cannot be taught — whether this was the right thing to build at all — is then
+the part left needing my attention, which is the point.
 
 ## Design
 
