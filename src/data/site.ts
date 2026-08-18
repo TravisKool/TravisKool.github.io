@@ -29,7 +29,7 @@ export const site = {
 
   /** Appears under the hero and as the default meta description. */
   intro:
-    'Fifteen years building software — the last eight scaling high-stakes fintech infrastructure, and the last four leading the teams that built it. Now working independently: building agentic AI systems, and flying cross-country competitions.',
+    'Fifteen years building software — the last eight scaling high-stakes fintech infrastructure, and the last four leading the team that built it. Now working independently: building agentic AI systems, and flying cross-country competitions.',
 
   location: 'Nevada',
 
@@ -175,7 +175,7 @@ export const employers: Employer[] = [
         highlights: [
           {
             label: 'Engineering leadership',
-            body: 'One of four architects and technical leads on the architecture review board, owning backend architecture across the teams I managed — guiding engineers through their service contracts, refining them, and presenting them for final review.',
+            body: 'One of four architects and technical leads on the architecture review board, owning backend architecture for my team — guiding engineers through their service contracts, refining them, and presenting them for final review.',
           },
           {
             label: 'Instant Settlement',
@@ -187,15 +187,19 @@ export const employers: Employer[] = [
           },
           {
             label: 'Compliance platform',
-            body: 'Led the teams behind the custom compliance platform for real-time account locking and fraud prevention.',
+            body: 'Led the team behind the custom compliance platform for real-time account locking and fraud prevention.',
           },
           {
             label: 'Acquisition onboarding',
-            body: 'Absorbed the acquired Choice (Kingdom Trust), Rocket Dollar, and Shrimpy platforms into the teams’ scope, setting architectural direction and standards for the consolidation.',
+            body: 'Absorbed the acquired Choice (Kingdom Trust), Rocket Dollar, and Shrimpy platforms into the team’s scope, setting architectural direction and standards for the consolidation.',
           },
           {
             label: 'AI-first delivery',
-            body: 'Led the teams through the company’s AI-first shift, with agents writing code and SQL across the development cycle behind AI linters and reviewers — holding architectural integrity with automated acceptance tests as generation outpaced human review.',
+            body: 'Led the team through the company’s AI-first shift, with agents writing code and SQL across the development cycle behind AI linters and reviewers — holding architectural integrity with automated acceptance tests as generation outpaced human review.',
+          },
+          {
+            label: 'Team',
+            body: 'Six engineers reporting to me, working alongside two QA engineers, a product manager, and a project manager.',
           },
           {
             label: 'System reliability',
