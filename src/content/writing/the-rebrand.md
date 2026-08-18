@@ -45,6 +45,18 @@ while the copy said *preservation record* — and records are set on opaque
 paper with visible structure; blur is exactly the wrong metaphor for a product
 whose brand is "nothing here is fuzzy, nothing is hidden."
 
+Two of the report's exhibits, cropped from its before-captures:
+
+![The old sign-in card: a heading sitting in a purple outline, a primary button fading from green to indigo, and an emoji doing icon work](/photos/rebrand-before-signin.webp)
+
+*Every charge in one card: the purple outline on the heading, the
+green-to-indigo gradient — both brands in one button — and the emoji chrome.*
+
+![The old dark theme: translucent glass panels over a muddy gradient, a purple map marker, and a blue-violet gradient action button](/photos/rebrand-before-listing.webp)
+
+*The dark theme's glass panels and purple map markers — the surface language
+the report read as "consumer travel app, 2023."*
+
 The verdict, in one sentence I have thought about weekly since:
 
 > The product has a spine. The pixels don't show it yet.
@@ -82,7 +94,16 @@ we shifted the name's second half to match: the word for the stronghold at
 the heart of a castle, because *keeping* is what stewards do. The icon came
 last, reinvented later by the tech lead from the report's own vibe language —
 a single monoline mark of a wing over a ridge, replacing the parachute emoji
-and the purple favicon it never matched.
+and the purple favicon it never matched:
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="88" height="88" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="A monoline mark: a wing arcing over a ridge line">
+  <path d="M7 19 C 12 9.5, 36 9.5, 41 19"/>
+  <circle cx="24" cy="26.5" r="2.2" fill="currentColor" stroke="none"/>
+  <path d="M4 41 L 17 30 L 25 36.5 L 37 26.5 L 44 32"/>
+</svg>
+
+*The new mark — drawn in a single line weight, in whatever ink the page is
+already using. Compare it to the emoji in the sign-in card above.*
 
 ## What I took from it
 
