@@ -199,7 +199,7 @@ export const employers: Employer[] = [
           },
           {
             label: 'Team',
-            body: 'Six engineers reporting to me, working alongside two QA engineers, a product manager, and a project manager.',
+            body: 'Six engineers reporting to me, on a cross-functional team of eleven with two QA engineers, a product manager, and a project manager.',
           },
           {
             label: 'Cross-functional decisions',
