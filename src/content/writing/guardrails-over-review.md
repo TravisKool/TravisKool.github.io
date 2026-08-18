@@ -144,6 +144,13 @@ end of the 2025 scaffold era — the bar went from aspiration to gate in the
 same week the team became mostly agents, and it was the agents that made the
 bar affordable.
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 172" role="img" aria-label="Horizontal bar chart of test methods: 474 at the end of the 2025 era, versus 3,057 backend and 1,173 UI component tests today.">
+<text x="176" y="18" font-family="var(--font-mono)" font-size="10" letter-spacing="1.4" fill="var(--ink-muted)" text-anchor="start">TEST METHODS, AT 100% LINE COVERAGE TODAY</text><text x="164" y="47" font-family="var(--font-mono)" font-size="10" letter-spacing="1.4" fill="var(--ink-muted)" text-anchor="end">2025 ERA</text><path d="M176 34 L228.4396467124632 34 Q232.4396467124632 34 232.4396467124632 38 L232.4396467124632 48 Q232.4396467124632 52 228.4396467124632 52 L176 52 Z" fill="var(--accent)"/><text x="242.4396467124632" y="47" font-family="var(--font-mono)" font-size="11" fill="var(--ink)" text-anchor="start">474</text><text x="164" y="81" font-family="var(--font-mono)" font-size="10" letter-spacing="1.4" fill="var(--ink-muted)" text-anchor="end">TODAY · BACKEND</text><path d="M176 68 L536 68 Q540 68 540 72 L540 82 Q540 86 536 86 L176 86 Z" fill="var(--accent)"/><text x="550" y="81" font-family="var(--font-mono)" font-size="11" fill="var(--ink)" text-anchor="start">3,057</text><text x="164" y="115" font-family="var(--font-mono)" font-size="10" letter-spacing="1.4" fill="var(--ink-muted)" text-anchor="end">TODAY · UI</text><path d="M176 102 L311.67026496565256 102 Q315.67026496565256 102 315.67026496565256 106 L315.67026496565256 116 Q315.67026496565256 120 311.67026496565256 120 L176 120 Z" fill="var(--accent)"/><text x="325.67026496565256" y="115" font-family="var(--font-mono)" font-size="11" fill="var(--ink)" text-anchor="start">1,173</text>
+</svg>
+
+*The suite, then and now — every bar held at 100% line coverage by a
+stop-gate.*
+
 ## The spec that outranks the code
 
 The repository's agent instructions file has grown to about 955 lines, and it
