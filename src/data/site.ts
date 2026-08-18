@@ -52,8 +52,17 @@ export const site = {
    */
   portrait: '/portrait.webp' as string | null,
 
-  /** Drives the amber "available" dot in the footer. Set false when not looking. */
-  openToOpportunities: true,
+  /**
+   * Drives the footer STATUS readout: true renders "Open to conversations"
+   * with the amber signal dot, false renders "Heads down".
+   *
+   * Deliberately named for conversations, not opportunities. Travis is not
+   * looking for a role right now, and this is not a job-seeking signal — it
+   * mirrors the line on his LinkedIn profile: happy to talk about agentic
+   * engineering, fintech architecture, or flying. Set false when he wants the
+   * inbound to stop entirely, not merely when he is not job-hunting.
+   */
+  openToConversations: true,
 
   /**
    * There is deliberately NO email address and NO contact form on this site.

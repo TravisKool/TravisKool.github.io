@@ -23,7 +23,7 @@ const year = new Date().getFullYear();
         <span class="readout__key">STATUS</span>
         <span class="readout__val">
           {
-            site.openToOpportunities ? (
+            site.openToConversations ? (
               <>
                 <span class="readout__dot" aria-hidden="true"></span>Open to conversations
               </>
@@ -135,7 +135,7 @@ const year = new Date().getFullYear();
     color: var(--ink-muted);
   }
 
-  /* Slow, soft pulse. Fast blinking would read as an alarm, not availability. */
+  /* Slow, soft pulse. Fast blinking would read as an alarm, not an open door. */
   .readout__dot {
     inline-size: 6px;
     block-size: 6px;
