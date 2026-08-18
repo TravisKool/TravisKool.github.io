@@ -1,15 +1,40 @@
 ---
 title: How this site is built
-description: A static site with no database, no framework runtime, and no tracking — and the reasoning behind each of those choices.
+description: A static site with no database and no framework runtime — chosen and written by agents, under someone who had never heard of Astro until it was recommended to him.
 pubDate: 2026-08-15
 kind: note
-tags: ['astro', 'web', 'architecture']
+tags: ['astro', 'agents', 'web', 'architecture']
 featured: false
 draft: false
 ---
 
 Every personal site is a small architecture decision, so it may as well be a
-consistent one. Here is what is running underneath this page and why.
+consistent one. Here is what is running underneath this page and why — starting
+with who decided it.
+
+## Who chose this
+
+I did not pick Astro. I had not heard of it.
+
+I gave Claude Code the constraints — a personal site, static, fast, no server to
+run, content in version control, a design that could carry both engineering and
+flying — and asked what it would build with and why. It came back with Astro and
+a rationale. My job was the part that still matters when you are not the one
+typing: interrogating the recommendation until I understood the tradeoffs well
+enough to reject it if it did not hold up. It held up. So I own the decision
+without having made the discovery.
+
+The code is the same story. Agents wrote it. I set the constraints, directed the
+content and the design, reviewed what came back, and decided what was allowed to
+ship.
+
+That is not a disclaimer, it is the subject. After eight years leading backend
+teams I am spending this year on whether agents can build systems that hold
+up — precision, decoupling, and quality under real velocity rather than traded
+away for it. A site is a small instance of that question, with the useful
+property that anyone can open the repository and judge the answer.
+
+The rest of this is what got decided, and why it survived review.
 
 ## The stack
 
@@ -52,7 +77,9 @@ const writing = defineCollection({
 ```
 
 This is the same instinct that makes me reach for a compiler in application
-code. If a mistake can be caught mechanically, it should be.
+code. If a mistake can be caught mechanically, it should be — and that matters
+more, not less, when an agent is doing the typing. Mechanical checks are the
+part of review that scales at the speed generation does.
 
 ## Design
 
@@ -63,7 +90,8 @@ felt like the honest reference for a site that is half architecture and half
 aviation.
 
 Both themes are defined as tokens in one file. Nothing else in the codebase
-hardcodes a colour.
+hardcodes a colour. That rule lives in the repository's agent instructions, and
+keeping it true is most of what directing an agent turns out to be.
 
 ## Hosting
 
