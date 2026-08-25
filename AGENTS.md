@@ -153,6 +153,25 @@ npx @squoosh/cli --resize '{"width":1600}' --webp auto -d public/photos/ input.j
 Target ~1600px on the long edge and under ~300 KB. Put photos in
 `public/photos/` and reference them as `/photos/name.webp`.
 
+## Git
+
+**Every change lands on `main` as one squashed commit** (owner-directed
+2026-08-25). Work on a feature branch as usual, but before landing, squash the
+branch to a single commit with a message describing the whole change, then
+fast-forward `main` to it. This site's history is a publication log — one
+commit per post or change reads cleanly; a trail of drafting tweaks does not.
+
+```bash
+git fetch origin main
+git reset --soft origin/main    # on the feature branch: fold all commits into one
+git commit -m "<the whole change, in one subject>"
+git push --force-with-lease     # rewriting your own unmerged feature branch is fine
+git checkout main && git merge --ff-only <branch> && git push
+```
+
+Force-pushing is acceptable **only** on your own unmerged feature branch as
+part of this squash — never on `main`.
+
 ## Deployment
 
 Push to `main`. `.github/workflows/deploy.yml` builds and publishes to GitHub
